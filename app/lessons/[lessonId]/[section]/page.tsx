@@ -1,16 +1,24 @@
 import { notFound } from 'next/navigation';
-import { isLessonId } from '@/lib/lessons';
+import { isLessonId, lessonIds } from '@/lib/lessons';
 import StudyApp, { type Section } from '../../../study-app';
+
+const sections: Section[] = ['vocabulary', 'grammar', 'practice'];
+
+export function generateStaticParams() {
+  return lessonIds.flatMap((lessonId) =>
+    sections.map((section) => ({ lessonId: String(lessonId), section })),
+  );
+}
+
+export const dynamicParams = false;
+
 export default async function LessonPage({
   params,
 }: {
   params: Promise<{ lessonId: string; section: string }>;
 }) {
   const { lessonId, section } = await params;
-  if (
-    !isLessonId(lessonId) ||
-    !['vocabulary', 'grammar', 'practice'].includes(section)
-  )
+  if (!isLessonId(lessonId) || !sections.includes(section as Section))
     notFound();
   return (
     <StudyApp
