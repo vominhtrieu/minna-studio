@@ -19,6 +19,7 @@ import {
   buildPracticePools,
   normalizePracticeSentence,
 } from '../lib/practice-pools.ts';
+import { reviewLesson, reviewTranslationCount } from '../lib/review.ts';
 
 void test('Route links render native anchors and do not intercept navigation', () => {
   const href = '/lessons/11/vocabulary';
@@ -265,7 +266,7 @@ void test('Verb drill generates every form for every verb group and irregular ve
   );
 });
 
-void test('Scope: exactly lessons 1–25, 785 flashcards, 147 grammar notes and 1900 exercises', () => {
+void test('Scope: exactly lessons 1–25, 1062 flashcards, 147 grammar notes and 1900 lesson exercises', () => {
   assert.deepEqual(Object.keys(lessons), [
     '1',
     '2',
@@ -295,7 +296,7 @@ void test('Scope: exactly lessons 1–25, 785 flashcards, 147 grammar notes and 
   ]);
   assert.equal(
     Object.values(lessons).reduce((n, l) => n + l.words.length, 0),
-    785,
+    1062,
   );
   assert.equal(
     Object.values(lessons).reduce((n, l) => n + l.grammar.length, 0),
@@ -353,8 +354,51 @@ void test('Navigation, lesson metadata and route validation cover only published
   ]) {
     assert.equal(isLessonId(invalid), false);
   }
-  assert.equal(lessons[10].words.length, 47);
-  assert.equal(lessons[11].words.length, 60);
+  assert.equal(lessons[10].words.length, 54);
+  assert.equal(lessons[11].words.length, 66);
+});
+void test('N5 review combines every lesson into one large balanced bank', () => {
+  assert.equal(reviewLesson.words.length, 1062);
+  assert.equal(reviewLesson.grammar.length, 147);
+  assert.equal(reviewLesson.choices.length, 1000);
+  assert.equal(reviewLesson.translations.length, 300);
+
+  const expectedLessonLabels = lessonIds.map((id) => `Bài ${id} ·`);
+  for (const collection of [
+    reviewLesson.words,
+    reviewLesson.grammar,
+    reviewLesson.choices,
+    reviewLesson.translations,
+  ]) {
+    const labels = collection
+      .slice(0, 25)
+      .map((item) =>
+        'type' in item ? item.type : 'title' in item ? item.title : item.topic,
+      );
+    assert.ok(
+      expectedLessonLabels.every((label) =>
+        labels.some((value) => value.startsWith(label)),
+      ),
+    );
+  }
+
+  const pools = buildPracticePools(reviewLesson, reviewTranslationCount);
+  for (const pool of [pools.viJa, pools.jaVi, pools.listening]) {
+    assert.equal(pool.length, reviewTranslationCount);
+    assert.equal(
+      new Set(pool.map((question) => normalizePracticeSentence(question.jp)))
+        .size,
+      reviewTranslationCount,
+    );
+  }
+  assert.equal(
+    new Set(
+      [...pools.viJa, ...pools.jaVi, ...pools.listening].map((question) =>
+        normalizePracticeSentence(question.jp),
+      ),
+    ).size,
+    reviewTranslationCount * 3,
+  );
 });
 void test('New vocabulary parsing rejects incomplete rows', () => {
   assert.throws(

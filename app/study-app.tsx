@@ -71,6 +71,10 @@ export default function StudyApp({
           </Select>
         </div>
         <span className="level-tag">
+          <Link href="/review">
+            <BookOpen size={14} /> Tổng ôn N5
+          </Link>
+          <span>·</span>
           <Link href="/drills">
             <Sigma size={14} /> Luyện chuyên đề
           </Link>

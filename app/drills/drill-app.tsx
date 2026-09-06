@@ -207,7 +207,7 @@ function DrillSession({
   );
 }
 
-function CounterDrill() {
+export function CounterDrill() {
   const [scope, setScope] = useState('all');
   const [questions, setQuestions] = useState<DrillQuestion[] | null>(null);
   const selectedCategory = counterCategories.find(
@@ -281,7 +281,7 @@ function CounterDrill() {
   );
 }
 
-function VerbDrill() {
+export function VerbDrill() {
   const [scope, setScope] = useState<'all' | ConjugationForm>('all');
   const [questions, setQuestions] = useState<DrillQuestion[] | null>(null);
   const selectedCount =

@@ -60,7 +60,15 @@ const modes: { id: Mode; title: string; subtitle: string; symbol: string }[] = [
     symbol: '聞',
   },
 ];
-export default function Practice({ lesson }: { lesson: Lesson }) {
+export default function Practice({
+  lesson,
+  poolSize = 12,
+  review = false,
+}: {
+  lesson: Lesson;
+  poolSize?: number;
+  review?: boolean;
+}) {
   const [mode, setMode] = useState<Mode>('choice');
   const [questions, setQuestions] = useState<Question[]>([]);
   const [index, setIndex] = useState(0);
@@ -72,7 +80,10 @@ export default function Practice({ lesson }: { lesson: Lesson }) {
   const [speaking, setSpeaking] = useState(false);
   const [speechWarning, setSpeechWarning] = useState('');
   const [listeningRun, setListeningRun] = useState(0);
-  const practicePools = useMemo(() => buildPracticePools(lesson), [lesson]);
+  const practicePools = useMemo(
+    () => buildPracticePools(lesson, poolSize),
+    [lesson, poolSize],
+  );
   const start = useCallback(
     (selected: Mode, only?: Question[]) => {
       const translations =
@@ -321,13 +332,17 @@ export default function Practice({ lesson }: { lesson: Lesson }) {
     return (
       <section>
         <div className="section-heading">
-          <h2>Tới lượt bạn luyện tập.</h2>
-          <span className="muted">{totalQuestionCount} câu / bài</span>
+          <h2>{review ? 'Chọn phần tổng ôn.' : 'Tới lượt bạn luyện tập.'}</h2>
+          <span className="muted">
+            {totalQuestionCount} câu trong ngân hàng
+          </span>
         </div>
         <p className="practice-intro">
-          Chọn một dạng bài. Trắc nghiệm có {lesson.choices.length} câu; mỗi
-          lượt ghép câu và nghe hiểu có {lesson.translations.length} câu. Giải
-          thích xuất hiện ngay sau khi trả lời.
+          Chọn một dạng bài. Trắc nghiệm có {lesson.choices.length} câu; ghép
+          Việt → Nhật có {practicePools.viJa.length} câu, ghép Nhật → Việt có{' '}
+          {practicePools.jaVi.length} câu và nghe hiểu có{' '}
+          {practicePools.listening.length} câu. Giải thích xuất hiện ngay sau
+          khi trả lời.
         </p>
         <RadioGroup
           className="mode-picker"
@@ -371,8 +386,9 @@ export default function Practice({ lesson }: { lesson: Lesson }) {
           Bắt đầu {selectedQuestionCount} câu <ArrowRight size={18} />
         </button>
         <p className="local-note">
-          Câu hỏi tự biên soạn theo trọng tâm bài {lesson.id}, không sao chép
-          bài tập trong sách.
+          {review
+            ? 'Ngân hàng được xếp xen kẽ theo bài để cả 25 bài đều xuất hiện sớm trong lượt luyện.'
+            : `Câu hỏi tự biên soạn theo trọng tâm bài ${lesson.id}, không sao chép bài tập trong sách.`}
         </p>
       </section>
     );

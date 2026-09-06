@@ -88,7 +88,10 @@ function candidatePool(lesson: Lesson) {
 }
 
 /** Spread sentences across modes before reusing any, and avoid exact MC text. */
-export function buildPracticePools(lesson: Lesson): PracticePools {
+export function buildPracticePools(
+  lesson: Lesson,
+  targetPerMode = 12,
+): PracticePools {
   const choiceText = new Set(
     lesson.choices
       .flatMap((question) => [question.prompt, ...question.options])
@@ -113,12 +116,12 @@ export function buildPracticePools(lesson: Lesson): PracticePools {
     const preferred = (index + lesson.id) % modeKeys.length;
     for (let offset = 0; offset < modeKeys.length; offset += 1) {
       const key = modeKeys[(preferred + offset) % modeKeys.length];
-      if (pools[key].length < 12) {
+      if (pools[key].length < targetPerMode) {
         pools[key].push(candidate);
         break;
       }
     }
-    if (modeKeys.every((key) => pools[key].length === 12)) break;
+    if (modeKeys.every((key) => pools[key].length === targetPerMode)) break;
   }
 
   for (const [modeIndex, key] of modeKeys.entries()) {
@@ -131,14 +134,14 @@ export function buildPracticePools(lesson: Lesson): PracticePools {
     ];
     for (const candidate of rotated) {
       const sentence = sentenceKey(candidate.jp);
-      if (pools[key].length === 12) break;
+      if (pools[key].length === targetPerMode) break;
       if (used.has(sentence)) continue;
       pools[key].push(candidate);
       used.add(sentence);
     }
   }
 
-  if (modeKeys.some((key) => pools[key].length !== 12)) {
+  if (modeKeys.some((key) => pools[key].length !== targetPerMode)) {
     throw new Error(
       `Lesson ${lesson.id} needs more distinct practice sentences`,
     );

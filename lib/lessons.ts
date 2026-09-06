@@ -22,6 +22,7 @@ import { lesson23 } from './lesson-23.ts';
 import { lesson24 } from './lesson-24.ts';
 import { lesson25 } from './lesson-25.ts';
 import { expandLessonChoices } from './choice-expander.ts';
+import { supplementalVocabulary } from './supplemental-vocabulary.ts';
 
 export type Word = {
   id: string;
@@ -906,7 +907,10 @@ const authoredLessons: Record<number, Lesson> = {
 export const lessons: Record<number, Lesson> = Object.fromEntries(
   Object.entries(authoredLessons).map(([id, lesson]) => [
     Number(id),
-    expandLessonChoices(lesson),
+    expandLessonChoices({
+      ...lesson,
+      words: [...lesson.words, ...(supplementalVocabulary[Number(id)] ?? [])],
+    }),
   ]),
 );
 

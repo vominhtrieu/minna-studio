@@ -16,16 +16,17 @@ Mở địa chỉ mà máy chủ in ra (mặc định http://localhost:3000).
 ## Nội dung
 
 - Bài 1–9: mẫu câu nhập môn, chỉ thị từ, địa điểm, thời gian, di chuyển, ngoại động từ, cho–nhận, tính từ và sở thích/năng lực.
-- Bài 10: 47 flashcard, 7 điểm ngữ pháp, 76 câu luyện tập.
-- Bài 11: 60 flashcard, 7 điểm ngữ pháp, 76 câu luyện tập.
-- Bài 12: 53 flashcard, 6 điểm ngữ pháp, 76 câu luyện tập — quá khứ tính từ/danh từ và so sánh.
+- Bài 10: 54 flashcard, 7 điểm ngữ pháp, 76 câu luyện tập.
+- Bài 11: 66 flashcard, 7 điểm ngữ pháp, 76 câu luyện tập.
+- Bài 12: 55 flashcard, 6 điểm ngữ pháp, 76 câu luyện tập — quá khứ tính từ/danh từ và so sánh.
 - Bài 13: 40 flashcard, 6 điểm ngữ pháp, 76 câu luyện tập — mong muốn và mục đích di chuyển.
 - Bài 14: 39 flashcard, 7 điểm ngữ pháp, 76 câu luyện tập — các nhóm động từ, thể て, nhờ vả và hành động đang diễn ra.
 - Bài 15: 29 flashcard, 6 điểm ngữ pháp, 76 câu luyện tập — xin phép, cấm đoán, trạng thái và công việc lâu dài.
 - Bài 16–17: nối hành động và đặc điểm; thể ない, nghĩa vụ và điều không cần làm.
 - Bài 18–21: khả năng, sở thích, kinh nghiệm, thể thông thường, ý kiến và trích dẫn.
 - Bài 22–25: mệnh đề bổ nghĩa, とき・と, cho nhận và điều kiện たら・ても.
-- Tổng cộng: 785 flashcard, 147 điểm ngữ pháp và 1.900 câu luyện tập. Mở đủ bài 1–25.
+- Tổng cộng: 1.062 flashcard, 147 điểm ngữ pháp và 1.900 câu luyện theo từng bài. Mở đủ bài 1–25.
+- Trang tổng ôn N5 có một ngân hàng chung gồm 1.000 câu trắc nghiệm và 100 câu riêng cho mỗi dạng Việt → Nhật, Nhật → Việt, nghe hiểu. Dữ liệu được xếp xen kẽ theo bài để cả 25 bài xuất hiện sớm; kèm hai chuyên đề 206 trường hợp số đếm và 288 tổ hợp chia động từ.
 - Mỗi bài: 40 trắc nghiệm, 12 ghép câu Việt → Nhật, 12 ghép câu Nhật → Việt và 12 câu nghe hiểu. Mỗi câu ghép có đủ từ của đáp án và thêm 4–6 từ gây nhiễu lấy từ nội dung cùng bài.
 - Ba dạng ghép câu và nghe hiểu được chia ngân hàng câu riêng. App dùng tối đa câu khác nhau trước, tránh trùng nguyên văn với trắc nghiệm và chỉ tái sử dụng khi bài đó không còn đủ ví dụ phù hợp.
 - Phần nghe dùng giọng tiếng Nhật có sẵn trên thiết bị, tự phát khi mỗi câu xuất hiện, phát chậm vừa cho trình độ N5 và cho nghe lại không giới hạn trước khi trả lời. Câu Nhật, cách đọc và giải thích chỉ hiện sau khi nộp đáp án.
@@ -44,13 +45,14 @@ Các trang vẫn được định tuyến bởi Vinext; liên kết dùng điề
 - `/lessons/{1…25}/grammar`.
 - `/lessons/{1…25}/practice`.
 - `/drills`: luyện toàn bộ số đếm và chia động từ.
+- `/review`: tổng ôn toàn bộ bài 1–25, số đếm và chia động từ.
 - Bài hoặc phân mục không hợp lệ trả về trang 404.
 
 ## Dữ liệu & giới hạn
 
 Nội dung bài 1–9 và 12–25 được tách thành từng tệp `lib/lesson-{số bài}.ts`; bài 10–11 được giữ trong `lib/lessons.ts`. Bộ chọn bài và kiểm tra route lấy từ `lessonIds`, phần tiêu đề/ghi chú ở `lib/lesson-details.ts`. Chấm câu dịch ở `lib/grading.ts`, dùng chung bộ tách cách đọc với furigana để không đọc sai một phần từ ghép (ví dụ 電話しています). Dữ liệu và quy tắc luyện số đếm/chia động từ nằm ở `lib/drills.ts`.
 
-Các ví dụ, giải thích và câu hỏi tự biên soạn. Không phải ứng dụng chính thức của nhà xuất bản. Phạm vi từ vựng có phần hội thoại và có thể khác giữa các ấn bản; nguồn đối chiếu Riki cho đúng số bài được dẫn ở cuối mỗi trang.
+Các ví dụ, bản dịch tiếng Việt, giải thích và câu hỏi đều tự biên soạn. Không phải ứng dụng chính thức của nhà xuất bản. Từ vựng đã được rà soát lại với danh sách Minna no Nihongo I ấn bản 2 của [MinnaNoDS](https://github.com/vitto4/MinnaNoDS) và danh sách theo bài của [Langoal](https://langoal.com/en/vocabulary/minna/1). Tên nhân vật, công ty giả và địa danh chỉ dùng làm ngữ liệu trong sách không được biến thành flashcard riêng; các quốc gia, địa danh và cụm giao tiếp có giá trị tái sử dụng vẫn được giữ. Nguồn ngữ pháp Riki theo đúng số bài được dẫn ở cuối mỗi trang.
 
 ID thẻ và khóa lưu của bài 10–11 được giữ nguyên. Các bài mới lưu riêng theo bài, không di chuyển hay xóa tiến độ đã có.
 
@@ -73,4 +75,4 @@ Phần tích hợp WebMCP tùy chọn chỉ cho bắt đầu một lượt luy�
 
 ## Xuất bản
 
-Ứng dụng đã cấu hình đầu ra Cloudflare qua Sites. Dịch vụ tạo Sites trả lỗi khi chuẩn bị bản này nên chưa có project_id hoặc URL triển khai. Không tự tạo lại Site trùng lặp. Bản chạy local không phụ thuộc dịch vụ xuất bản.
+Ứng dụng được build tĩnh vào `dist/client`; Netlify chạy build từ repository GitHub và xuất bản tại [minna-studio.netlify.app](https://minna-studio.netlify.app/).

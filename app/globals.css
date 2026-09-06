@@ -1459,6 +1459,48 @@ h1 {
   margin: 0 auto;
   padding: 54px 0 80px;
 }
+.review-workspace {
+  width: min(1120px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 54px 0 80px;
+}
+.review-heading {
+  max-width: 800px;
+  margin-bottom: 28px;
+}
+.review-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0 0 34px;
+}
+.review-stats > div {
+  padding: 19px 20px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fff;
+}
+.review-stats dt {
+  color: #087966;
+  font-size: 25px;
+  font-weight: 750;
+}
+.review-stats dd {
+  margin: 4px 0 0;
+  color: #68796e;
+  font-size: 13px;
+}
+.review-practice {
+  padding: 30px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: #fff;
+}
+.review-coverage-note {
+  margin: 22px 2px 0;
+  color: #68796e;
+  font-size: 13px;
+}
 .drill-heading {
   max-width: 720px;
   margin-bottom: 38px;
@@ -1626,6 +1668,16 @@ h1 {
   .drill-workspace {
     width: min(100% - 32px, 940px);
     padding-top: 34px;
+  }
+  .review-workspace {
+    width: min(100% - 32px, 1120px);
+    padding-top: 34px;
+  }
+  .review-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .review-practice {
+    padding: 22px;
   }
   .drill-heading {
     margin-bottom: 28px;
