@@ -12,7 +12,8 @@ export const lesson16 = defineLesson(16, {
 乗り換えます|のりかえます|chuyển, đổi tàu xe|Động từ · Nhóm II|梅田で地下鉄に乗り換えます。|Tôi đổi sang tàu điện ngầm ở Umeda.
 浴びます|あびます|tắm, dội (vòi sen)|Động từ · Nhóm II|ジョギングをしてから、シャワーを浴びます。|Sau khi chạy bộ, tôi tắm vòi sen.
 入れます|いれます|cho vào, bỏ vào|Động từ · Nhóm II|ここにカードを入れてください。|Hãy cho thẻ vào đây.
-出します|だします|lấy ra; rút tiền|Động từ · Nhóm I|銀行でお金を出します。|Tôi rút tiền ở ngân hàng.
+出します|だします|lấy ra; gửi, nộp|Động từ · Nhóm I|かばんから本を出します。|Tôi lấy sách ra khỏi cặp.
+下ろします|おろします|rút (tiền); hạ, dỡ xuống|Động từ · Nhóm I|銀行でお金を下ろします。|Tôi rút tiền ở ngân hàng.
 入ります|はいります|vào; nhập học|Động từ · Nhóm I|来年、大学に入ります。|Năm sau tôi vào đại học.
 出ます|でます|ra; tốt nghiệp|Động từ · Nhóm II|大学を出てから、会社で働きます。|Sau khi tốt nghiệp đại học, tôi làm ở công ty.
 やめます|やめます|nghỉ, bỏ, thôi|Động từ · Nhóm II|来月、会社をやめます。|Tháng sau tôi nghỉ công ty.
@@ -46,7 +47,7 @@ export const lesson16 = defineLesson(16, {
 `,
   grammar: grammarRows(`
 Nối các hành động|V1て、V2て、V3|Nối nhiều hành động của cùng một chủ thể theo thứ tự xảy ra. Chỉ động từ cuối chia thời.|朝起きて、顔を洗って、朝ごはんを食べます。|Buổi sáng tôi thức dậy, rửa mặt rồi ăn sáng.|Nếu chủ thể thay đổi, nên tách câu hoặc nêu lại chủ thể.
-Sau khi làm xong|V1てから、V2|Nhấn mạnh V2 chỉ diễn ra sau khi V1 đã hoàn tất. Mỗi câu thường chỉ dùng một lần てから.|お金を出してから、買い物に行きます。|Sau khi rút tiền, tôi đi mua sắm.|Đừng nhầm với から chỉ nguyên nhân; ở đây てから chỉ trình tự.
+Sau khi làm xong|V1てから、V2|Nhấn mạnh V2 chỉ diễn ra sau khi V1 đã hoàn tất. Mỗi câu thường chỉ dùng một lần てから.|お金を下ろしてから、買い物に行きます。|Sau khi rút tiền, tôi đi mua sắm.|Đừng nhầm với から chỉ nguyên nhân; ở đây てから chỉ trình tự.
 Nối tính từ い|Aい bỏ い + くて、～|Dùng くて để nối những đặc điểm cùng hướng của một người hoặc vật. いい đổi thành よくて.|この部屋は明るくて、広いです。|Căn phòng này sáng và rộng.|Khi hai ý tương phản rõ, dùng が thay vì くて.
 Nối danh từ và tính từ な|N / Aな bỏ な + で、～|Danh từ và tính từ な nối bằng で. Phần sau tiếp tục miêu tả cùng chủ thể.|田中さんは親切で、元気です。|Anh Tanaka tốt bụng và khỏe.|Không dùng だで hoặc なで.
 Nêu đặc điểm một bộ phận|N1 は N2 が Aです|N1 là chủ đề; N2 là bộ phận hoặc thuộc tính được miêu tả bằng tính từ.|マリアさんは髪が長いです。|Chị Maria có mái tóc dài.|Không đổi が thành の trong câu này.
@@ -68,7 +69,7 @@ Hỏi cách và chọn trong nhóm|どうやって / どの + N|どうやって 
 `),
   translations: translationRows(`
 朝起きて、顔を洗って、朝ごはんを食べます。|あさおきて、かおをあらって、あさごはんをたべます。|Buổi sáng tôi thức dậy, rửa mặt rồi ăn sáng.|Nối hành động|Ba hành động cùng chủ thể được nối bằng thể て; động từ cuối chia lịch sự.
-銀行でお金を出してから、買い物に行きます。|ぎんこうでおかねをだしてから、かいものにいきます。|Sau khi rút tiền ở ngân hàng, tôi đi mua sắm.|Vてから|出してから cho biết đi mua sắm sau khi rút tiền xong.
+銀行でお金を下ろしてから、買い物に行きます。|ぎんこうでおかねをおろしてから、かいものにいきます。|Sau khi rút tiền ở ngân hàng, tôi đi mua sắm.|Vてから|下ろしてから cho biết đi mua sắm sau khi rút tiền xong.
 大阪駅で電車に乗ります。|おおさかえきででんしゃにのります。|Tôi lên tàu ở ga Osaka.|Lên tàu|で chỉ nơi lên; phương tiện đi với に trong 乗ります.
 京都駅で電車を降ります。|きょうとえきででんしゃをおります。|Tôi xuống tàu ở ga Kyoto.|Xuống tàu|Phương tiện rời khỏi đi với を trong 降ります.
 梅田で地下鉄に乗り換えます。|うめだでちかてつにのりかえます。|Tôi đổi sang tàu điện ngầm ở Umeda.|Đổi tàu|で chỉ nơi đổi; に chỉ phương tiện đổi sang.

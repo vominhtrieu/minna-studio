@@ -259,7 +259,7 @@ void test('Verb drill generates every form for every verb group and irregular ve
   );
 });
 
-void test('Scope: exactly lessons 1–25, 784 flashcards, 147 grammar notes and 1900 exercises', () => {
+void test('Scope: exactly lessons 1–25, 785 flashcards, 147 grammar notes and 1900 exercises', () => {
   assert.deepEqual(Object.keys(lessons), [
     '1',
     '2',
@@ -289,7 +289,7 @@ void test('Scope: exactly lessons 1–25, 784 flashcards, 147 grammar notes and 
   ]);
   assert.equal(
     Object.values(lessons).reduce((n, l) => n + l.words.length, 0),
-    784,
+    785,
   );
   assert.equal(
     Object.values(lessons).reduce((n, l) => n + l.grammar.length, 0),
@@ -301,6 +301,21 @@ void test('Scope: exactly lessons 1–25, 784 flashcards, 147 grammar notes and 
       0,
     ),
     1900,
+  );
+});
+void test('Lesson 16 distinguishes 下ろします from 出します', () => {
+  const withdraw = lessons[16].words.find((word) => word.jp === '下ろします');
+  const takeOut = lessons[16].words.find((word) => word.jp === '出します');
+  assert.equal(withdraw?.kana, 'おろします');
+  assert.match(withdraw?.vi ?? '', /rút/);
+  assert.doesNotMatch(takeOut?.vi ?? '', /rút tiền/);
+
+  const segments = segmentReadings('お金を下ろしてから、買い物に行きます。');
+  assert.ok(
+    segments.some(
+      (segment) =>
+        segment.text === '下ろして' && segment.reading === 'おろして',
+    ),
   );
 });
 void test('Navigation, lesson metadata and route validation cover only published lessons', () => {

@@ -25,7 +25,7 @@ Mở địa chỉ mà máy chủ in ra (mặc định http://localhost:3000).
 - Bài 16–17: nối hành động và đặc điểm; thể ない, nghĩa vụ và điều không cần làm.
 - Bài 18–21: khả năng, sở thích, kinh nghiệm, thể thông thường, ý kiến và trích dẫn.
 - Bài 22–25: mệnh đề bổ nghĩa, とき・と, cho nhận và điều kiện たら・ても.
-- Tổng cộng: 784 flashcard, 147 điểm ngữ pháp và 1.900 câu luyện tập. Mở đủ bài 1–25.
+- Tổng cộng: 785 flashcard, 147 điểm ngữ pháp và 1.900 câu luyện tập. Mở đủ bài 1–25.
 - Mỗi bài: 40 trắc nghiệm, 12 ghép câu Việt → Nhật, 12 ghép câu Nhật → Việt và 12 câu nghe hiểu. Mỗi câu ghép có đủ từ của đáp án và thêm 4–6 từ gây nhiễu lấy từ nội dung cùng bài.
 - Ba dạng ghép câu và nghe hiểu được chia ngân hàng câu riêng. App dùng tối đa câu khác nhau trước, tránh trùng nguyên văn với trắc nghiệm và chỉ tái sử dụng khi bài đó không còn đủ ví dụ phù hợp.
 - Phần nghe dùng giọng tiếng Nhật có sẵn trên thiết bị, tự phát khi mỗi câu xuất hiện, phát chậm vừa cho trình độ N5 và cho nghe lại không giới hạn trước khi trả lời. Câu Nhật, cách đọc và giải thích chỉ hiện sau khi nộp đáp án.
