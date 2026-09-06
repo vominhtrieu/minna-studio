@@ -10,7 +10,7 @@ export type ReadingSegment = {
 };
 const han = /[\p{Script=Han}々]/u;
 const japaneseRun =
-  /([\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}々ー]+)/gu;
+  /([\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}々ー、]+)/gu;
 // Curated whole-word readings for the current lessons, not per-character guesses.
 // Longest match keeps counters and compound words together (四人, 一時間半…).
 function deriveStemReadings(): Record<string, string> {
@@ -172,7 +172,7 @@ export function segmentReadings(text: string): ReadingSegment[] {
     .filter(Boolean)
     .flatMap((run): ReadingSegment[] => {
       if (
-        !/^[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}々ー]+$/u.test(
+        !/^[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}々ー、]+$/u.test(
           run,
         )
       )

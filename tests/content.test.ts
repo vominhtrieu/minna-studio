@@ -72,6 +72,12 @@ void test('Furigana uses word readings, including irregular counters and compoun
     segmentReadings('六か月').map((s) => s.reading),
     ['ろっかげつ'],
   );
+  assert.ok(
+    segmentReadings('二、三日休んでください。').some(
+      (segment) =>
+        segment.text === '二、三日' && segment.reading === 'に、さんにち',
+    ),
+  );
 });
 
 void test('Kanji hover data includes Hán-Việt readings', () => {
