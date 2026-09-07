@@ -1,10 +1,10 @@
 'use client';
 
-import { ArrowLeft, BookOpen, Hash, RotateCcw } from 'lucide-react';
+import { BookOpen, Hash, RotateCcw } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { conjugationItemCount, counterItemCount } from '@/lib/drills';
 import { reviewLesson, reviewTranslationCount } from '@/lib/review';
-import Link from '../app-link';
+import SiteHeader from '../site-header';
 import { CounterDrill, VerbDrill } from '../drills/drill-app';
 import Practice from '../practice';
 
@@ -14,19 +14,7 @@ export default function ReviewApp() {
 
   return (
     <div className="drill-shell review-shell">
-      <header className="topbar drill-topbar">
-        <Link className="brand" href="/">
-          <span className="brand-mark" aria-hidden="true">
-            み
-          </span>
-          <span>
-            minna<span className="brand-light"> studio</span>
-          </span>
-        </Link>
-        <Link className="button secondary" href="/lessons/1/vocabulary">
-          <ArrowLeft size={17} /> Trở lại bài học
-        </Link>
-      </header>
+      <SiteHeader current="review" />
       <main className="review-workspace">
         <div className="drill-heading review-heading">
           <p className="eyebrow">TỔNG ÔN MINNA NO NIHONGO I</p>

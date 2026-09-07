@@ -31,7 +31,7 @@ import {
 } from '@/lib/drills';
 import { shuffled } from '@/lib/grading';
 import JapaneseText from '../japanese-text';
-import Link from '../app-link';
+import SiteHeader from '../site-header';
 
 type DrillQuestion = {
   id: string;
@@ -363,19 +363,7 @@ export function VerbDrill() {
 export default function DrillApp() {
   return (
     <div className="drill-shell">
-      <header className="topbar drill-topbar">
-        <Link className="brand" href="/">
-          <span className="brand-mark" aria-hidden="true">
-            み
-          </span>
-          <span>
-            minna<span className="brand-light"> studio</span>
-          </span>
-        </Link>
-        <Link className="button secondary" href="/lessons/1/vocabulary">
-          <ArrowLeft size={17} /> Trở lại bài học
-        </Link>
-      </header>
+      <SiteHeader current="drills" />
       <main className="drill-workspace">
         <div className="drill-heading">
           <p className="eyebrow">LUYỆN CHUYÊN ĐỀ</p>

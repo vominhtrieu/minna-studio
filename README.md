@@ -40,7 +40,7 @@ Mở địa chỉ mà máy chủ in ra (mặc định http://localhost:3000).
 
 Các trang vẫn được định tuyến bởi Vinext; liên kết dùng điều hướng tài liệu gốc (`<a>`) để tránh lỗi RSC client navigation trong bản production hiện tại. Chuyển mục sẽ tải trang mới, giữ hỗ trợ Back/Forward và mở tab mới. Tiến độ từ vựng lưu localStorage không bị mất.
 
-- `/`: vào flashcard bài 1.
+- `/`: trang chủ hiển thị đủ 25 bài; mỗi bài có liên kết Từ vựng, Ngữ pháp và Luyện tập. Thanh điều hướng có lối về Trang chủ, Tổng ôn N5 và Luyện chuyên đề.
 - `/lessons/{1…25}/vocabulary`.
 - `/lessons/{1…25}/grammar`.
 - `/lessons/{1…25}/practice`.
@@ -50,7 +50,7 @@ Các trang vẫn được định tuyến bởi Vinext; liên kết dùng điề
 
 ## Dữ liệu & giới hạn
 
-Nội dung bài 1–9 và 12–25 được tách thành từng tệp `lib/lesson-{số bài}.ts`; bài 10–11 được giữ trong `lib/lessons.ts`. Bộ chọn bài và kiểm tra route lấy từ `lessonIds`, phần tiêu đề/ghi chú ở `lib/lesson-details.ts`. Chấm câu dịch ở `lib/grading.ts`, dùng chung bộ tách cách đọc với furigana để không đọc sai một phần từ ghép (ví dụ 電話しています). Dữ liệu và quy tắc luyện số đếm/chia động từ nằm ở `lib/drills.ts`.
+Nội dung bài 1–9 và 12–25 được tách thành từng tệp `lib/lesson-{số bài}.ts`; bài 10–11 được giữ trong `lib/lessons.ts`. Danh sách bài trên trang chủ và kiểm tra route lấy từ `lessonIds`, phần tiêu đề/ghi chú ở `lib/lesson-details.ts`. Chấm câu dịch ở `lib/grading.ts`, dùng chung bộ tách cách đọc với furigana để không đọc sai một phần từ ghép (ví dụ 電話しています). Dữ liệu và quy tắc luyện số đếm/chia động từ nằm ở `lib/drills.ts`.
 
 Các ví dụ, bản dịch tiếng Việt, giải thích và câu hỏi đều tự biên soạn. Không phải ứng dụng chính thức của nhà xuất bản. Từ vựng đã được rà soát lại với danh sách Minna no Nihongo I ấn bản 2 của [MinnaNoDS](https://github.com/vitto4/MinnaNoDS) và danh sách theo bài của [Langoal](https://langoal.com/en/vocabulary/minna/1). Tên nhân vật, công ty giả và địa danh chỉ dùng làm ngữ liệu trong sách không được biến thành flashcard riêng; các quốc gia, địa danh và cụm giao tiếp có giá trị tái sử dụng vẫn được giữ. Nguồn ngữ pháp Riki theo đúng số bài được dẫn ở cuối mỗi trang.
 

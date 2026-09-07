@@ -7,18 +7,11 @@ import {
   ChevronRight,
   Layers,
   PenLine,
-  Sigma,
   Sparkles,
 } from 'lucide-react';
-import { lessons, lessonIds } from '@/lib/lessons';
+import { lessons } from '@/lib/lessons';
 import { lessonDetails } from '@/lib/lesson-details';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import SiteHeader from './site-header';
 import JapaneseText from './japanese-text';
 import Flashcards from './flashcards';
 import Grammar from './grammar';
@@ -39,50 +32,11 @@ export default function StudyApp({
       <a className="skip-link" href="#lesson-content">
         Đến nội dung bài học
       </a>
-      <header className="topbar">
-        <Link className="brand" href="/">
-          <span className="brand-mark" aria-hidden="true">
-            み
-          </span>
-          <span>
-            minna<span className="brand-light"> studio</span>
-          </span>
-        </Link>
-        <div className="lesson-picker">
-          <label htmlFor="lesson-picker-trigger">Bài học</label>
-          <Select
-            value={String(lessonId)}
-            onValueChange={(value) => {
-              if (value && value !== String(lessonId)) {
-                window.location.assign(`/lessons/${value}/${section}`);
-              }
-            }}
-          >
-            <SelectTrigger id="lesson-picker-trigger">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent align="center">
-              {lessonIds.map((id) => (
-                <SelectItem key={id} value={String(id)}>
-                  Bài {id} <span lang="ja">第{id}課</span>
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <span className="level-tag">
-          <Link href="/review">
-            <BookOpen size={14} /> Tổng ôn N5
-          </Link>
-          <span>·</span>
-          <Link href="/drills">
-            <Sigma size={14} /> Luyện chuyên đề
-          </Link>
-        </span>
-      </header>
+      <SiteHeader />
       <main className="workspace">
         <div className="breadcrumb">
-          <BookOpen size={15} /> Minna no Nihongo I <ChevronRight size={14} />
+          <BookOpen size={15} /> <Link href="/">Tất cả bài học</Link>{' '}
+          <ChevronRight size={14} />
           <span>Bài {lessonId}</span>
         </div>
         <div className="page-heading">
