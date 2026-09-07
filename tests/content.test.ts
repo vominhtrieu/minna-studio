@@ -1,8 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { lessons, lessonIds, isLessonId } from '../lib/lessons.ts';
+import {
+  lessons,
+  lessonIds,
+  n5LessonIds,
+  n4LessonIds,
+  isLessonId,
+} from '../lib/lessons.ts';
 import { lessonDetails } from '../lib/lesson-details.ts';
 import { defineLesson } from '../lib/lesson-builder.ts';
+import { annotated } from '../lib/n4-readings.ts';
 import { segmentReadings } from '../lib/furigana.ts';
 import { hanVietFor } from '../lib/han-viet.ts';
 import { renderToStaticMarkup } from 'react-dom/server';
@@ -266,8 +273,8 @@ void test('Verb drill generates every form for every verb group and irregular ve
   );
 });
 
-void test('Scope: exactly lessons 1–25, 1062 flashcards, 147 grammar notes and 1900 lesson exercises', () => {
-  assert.deepEqual(Object.keys(lessons), [
+void test('N5 content remains 1062 flashcards, 147 grammar notes and 1900 lesson exercises', () => {
+  assert.deepEqual(n5LessonIds.map(String), [
     '1',
     '2',
     '3',
@@ -295,18 +302,21 @@ void test('Scope: exactly lessons 1–25, 1062 flashcards, 147 grammar notes and
     '25',
   ]);
   assert.equal(
-    Object.values(lessons).reduce((n, l) => n + l.words.length, 0),
+    n5LessonIds
+      .map((id) => lessons[id])
+      .reduce((n, l) => n + l.words.length, 0),
     1062,
   );
   assert.equal(
-    Object.values(lessons).reduce((n, l) => n + l.grammar.length, 0),
+    n5LessonIds
+      .map((id) => lessons[id])
+      .reduce((n, l) => n + l.grammar.length, 0),
     147,
   );
   assert.equal(
-    Object.values(lessons).reduce(
-      (n, l) => n + l.choices.length + 3 * l.translations.length,
-      0,
-    ),
+    n5LessonIds
+      .map((id) => lessons[id])
+      .reduce((n, l) => n + l.choices.length + 3 * l.translations.length, 0),
     1900,
   );
 });
@@ -328,10 +338,7 @@ void test('Lesson 16 distinguishes 下ろします from 出します', () => {
 void test('Navigation, lesson metadata and route validation cover only published lessons', () => {
   assert.deepEqual(
     lessonIds,
-    [
-      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-      22, 23, 24, 25,
-    ],
+    Array.from({ length: 50 }, (_, index) => index + 1),
   );
   for (const id of lessonIds) {
     assert.equal(isLessonId(String(id)), true);
@@ -344,7 +351,7 @@ void test('Navigation, lesson metadata and route validation cover only published
   }
   for (const invalid of [
     '-1',
-    '26',
+    '51',
     '0',
     '012',
     '12.0',
@@ -363,7 +370,7 @@ void test('N5 review combines every lesson into one large balanced bank', () => 
   assert.equal(reviewLesson.choices.length, 1000);
   assert.equal(reviewLesson.translations.length, 300);
 
-  const expectedLessonLabels = lessonIds.map((id) => `Bài ${id} ·`);
+  const expectedLessonLabels = n5LessonIds.map((id) => `Bài ${id} ·`);
   for (const collection of [
     reviewLesson.words,
     reviewLesson.grammar,
@@ -399,6 +406,113 @@ void test('N5 review combines every lesson into one large balanced bank', () => 
     ).size,
     reviewTranslationCount * 3,
   );
+});
+void test('Minna II contains exactly lessons 26–50 with full practice banks', () => {
+  assert.deepEqual(
+    n4LessonIds,
+    Array.from({ length: 25 }, (_, index) => index + 26),
+  );
+  const n4 = n4LessonIds.map((id) => lessons[id]);
+  assert.equal(
+    n4.reduce((sum, lesson) => sum + lesson.words.length, 0),
+    1040,
+  );
+  assert.equal(
+    n4.reduce((sum, lesson) => sum + lesson.grammar.length, 0),
+    125,
+  );
+  assert.equal(
+    n4.reduce((sum, lesson) => sum + lesson.choices.length, 0),
+    1000,
+  );
+  for (const lesson of n4) {
+    assert.ok(lesson.words.length >= 20);
+    assert.match(
+      lessonDetails[lesson.id].grammarSource,
+      new RegExp(`lesson-${lesson.id}\\.html$`),
+    );
+    const pools = buildPracticePools(lesson);
+    const sentences = [...pools.viJa, ...pools.jaVi, ...pools.listening].map(
+      (q) => normalizePracticeSentence(q.jp),
+    );
+    assert.equal(
+      new Set(sentences).size,
+      36,
+      `Lesson ${lesson.id}: no cross-mode duplicates`,
+    );
+    const completedChoices = new Set(
+      lesson.choices.map((q) =>
+        normalizePracticeSentence(
+          q.prompt.replace(/（\s*）/u, q.options[q.correct]),
+        ),
+      ),
+    );
+    assert.ok(
+      sentences.every((sentence) => !completedChoices.has(sentence)),
+      `Lesson ${lesson.id}: no completed MC sentence reused`,
+    );
+    for (const word of lesson.words) {
+      assert.equal(
+        segmentReadings(word.jp, word.kana)
+          .map((segment) => segment.reading ?? segment.text)
+          .join(''),
+        word.kana,
+      );
+      assert.doesNotMatch(word.kana, /[\p{Script=Han}{}]/u, word.id);
+    }
+  }
+  for (const q of reviewLesson.choices)
+    assert.ok(Number(q.topic.match(/^Bài (\d+)/u)?.[1]) <= 25);
+});
+void test('N4 explicit readings preserve homographs, sentence context and quiz hints', () => {
+  const reading = (text: string) =>
+    segmentReadings(text)
+      .map((s) => s.reading ?? s.text)
+      .join('');
+  assert.equal(
+    reading('料理の教室を開きます。'),
+    'りょうりのきょうしつをひらきます。',
+  );
+  assert.equal(reading('窓が開いています。'), 'まどがあいています。');
+  assert.equal(reading('私わたくし'), 'わたしわたくし'); // No invented context.
+  assert.equal(
+    normalizeJapanese('右へ曲がると、駅が見えます。'),
+    'みぎへまがるとえきがみえます',
+  );
+  const word = lessons[50].words.find((item) => item.jp === '私')!;
+  assert.equal(word.kana, 'わたくし');
+  assert.equal(segmentReadings(word.jp, word.kana)[0].reading, 'わたくし');
+  const hints = { 開きます: 'ひらきます' };
+  assert.ok(
+    segmentReadings('「開きます」の意味', undefined, hints).some(
+      (segment) => segment.reading === 'ひらきます',
+    ),
+  );
+  assert.equal(
+    annotated('{本:ほん}を{読:よ}みます。', false).kana,
+    'ほんをよみます。',
+  );
+  assert.throws(() => annotated('{本:ほん'), /Malformed/);
+});
+void test('All lesson Kanji have Hán-Việt data or an explicit Japanese-created-character note', () => {
+  for (const lesson of Object.values(lessons)) {
+    const texts = [
+      ...lesson.words.flatMap((word) => [word.jp, word.example]),
+      ...lesson.grammar.flatMap((g) => [
+        g.formula,
+        g.explanation,
+        g.example,
+        g.caution,
+      ]),
+      ...lesson.translations.map((q) => q.jp),
+    ];
+    for (const text of texts)
+      for (const character of text.match(/[\p{Script=Han}]/gu) ?? []) {
+        if (character === '々') continue;
+        assert.ok(hanVietFor(character), `Lesson ${lesson.id}: ${character}`);
+      }
+  }
+  assert.match(hanVietFor('込')!, /không có âm Hán Việt/);
 });
 void test('New vocabulary parsing rejects incomplete rows', () => {
   assert.throws(

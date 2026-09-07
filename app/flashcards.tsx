@@ -196,7 +196,10 @@ export default function Flashcards({ lesson }: { lesson: Lesson }) {
                     className={reverse ? 'japanese-word' : 'meaning'}
                     lang={reverse ? 'ja' : 'vi'}
                   >
-                    <JapaneseText text={reverse ? word.jp : word.vi} />
+                    <JapaneseText
+                      text={reverse ? word.jp : word.vi}
+                      readingHint={reverse ? word.kana : undefined}
+                    />
                   </span>
                   {showKana && (
                     <span className="kana" lang="ja">
@@ -218,6 +221,7 @@ export default function Flashcards({ lesson }: { lesson: Lesson }) {
                   >
                     <JapaneseText
                       text={reverse ? word.vi : word.jp}
+                      readingHint={reverse ? undefined : word.kana}
                       readings={showKana}
                     />
                   </span>

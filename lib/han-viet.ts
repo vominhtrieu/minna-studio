@@ -1,9 +1,11 @@
 /**
- * Curated Hán-Việt readings used by lessons 1–25.
+ * Curated Hán-Việt readings used by lessons 1–50.
  * Base data: ph0ngp/hanviet-pinyin-wordlist (MIT); Japanese variants
  * are normalized with Unicode Unihan 17.0 and reviewed for lesson context.
  */
+import { additionalHanViet } from './han-viet-n4.ts';
 const hanVietReadings: Record<string, string[]> = {
+  ...additionalHanViet,
   一: ['nhất'],
   七: ['thất'],
   万: ['vạn'],
@@ -578,6 +580,8 @@ export function hanVietFor(text: string) {
   const entries = Array.from(text)
     .filter((character) => han.test(character))
     .map((character) => {
+      if (character === '込')
+        return '込: chữ Nhật tự tạo, không có âm Hán Việt';
       const readings = hanVietReadings[character];
       if (!readings) return undefined;
       const value = readings

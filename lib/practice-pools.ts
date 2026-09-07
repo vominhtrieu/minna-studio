@@ -94,7 +94,11 @@ export function buildPracticePools(
 ): PracticePools {
   const choiceText = new Set(
     lesson.choices
-      .flatMap((question) => [question.prompt, ...question.options])
+      .flatMap((question) => [
+        question.prompt,
+        ...question.options,
+        question.prompt.replace(/（\s*）/u, question.options[question.correct]),
+      ])
       .map(sentenceKey),
   );
   const candidates = candidatePool(lesson);

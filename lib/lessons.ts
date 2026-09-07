@@ -23,6 +23,7 @@ import { lesson24 } from './lesson-24.ts';
 import { lesson25 } from './lesson-25.ts';
 import { expandLessonChoices } from './choice-expander.ts';
 import { supplementalVocabulary } from './supplemental-vocabulary.ts';
+import { n4Lessons } from './n4-lessons.ts';
 
 export type Word = {
   id: string;
@@ -53,6 +54,8 @@ export type ChoiceQuestion = {
   correct: number;
   explanation: string;
   topic: string;
+  /** A vocabulary quiz must use the headword's reading in its own lesson. */
+  readingHints?: Record<string, string>;
 };
 export type Translation = {
   id: string;
@@ -888,6 +891,7 @@ const authoredLessons: Record<number, Lesson> = {
   23: lesson23,
   24: lesson24,
   25: lesson25,
+  ...n4Lessons,
   10: {
     id: 10,
     words: words10,
@@ -917,6 +921,8 @@ export const lessons: Record<number, Lesson> = Object.fromEntries(
 export const lessonIds = Object.keys(lessons)
   .map(Number)
   .sort((a, b) => a - b);
+export const n5LessonIds = lessonIds.filter((id) => id <= 25);
+export const n4LessonIds = lessonIds.filter((id) => id >= 26);
 export function isLessonId(value: string): boolean {
   return lessonIds.some((id) => String(id) === value);
 }

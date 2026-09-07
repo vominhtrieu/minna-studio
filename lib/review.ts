@@ -1,7 +1,7 @@
-import { lessons, lessonIds, type Lesson } from './lessons.ts';
+import { lessons, n5LessonIds, type Lesson } from './lessons.ts';
 
 function roundRobin<T>(getItems: (lesson: Lesson) => T[]): T[] {
-  const rows = lessonIds.map((id) => getItems(lessons[id]));
+  const rows = n5LessonIds.map((id) => getItems(lessons[id]));
   const longest = Math.max(...rows.map((row) => row.length));
   const result: T[] = [];
   for (let index = 0; index < longest; index += 1) {

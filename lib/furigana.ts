@@ -2,6 +2,7 @@ import { lessons } from './lessons.ts';
 import { readings1To9 } from './readings-1-9.ts';
 import { readings12To15 } from './readings-12-15.ts';
 import { readings16To25 } from './readings-16-25.ts';
+import { n4Readings, n4ContextReadings } from './n4-readings.ts';
 
 export type ReadingSegment = {
   text: string;
@@ -43,6 +44,7 @@ function deriveStemReadings(): Record<string, string> {
 }
 
 const dictionary: Record<string, string> = {
+  ...n4Readings,
   ...deriveStemReadings(),
   ...Object.fromEntries(
     Object.values(lessons).flatMap((lesson) =>
@@ -178,12 +180,54 @@ const dictionary: Record<string, string> = {
   ...readings1To9,
   ...readings12To15,
   ...readings16To25,
+  曲が: 'まが',
+  尊敬語: 'そんけいご',
 };
 const entries = Object.entries(dictionary).sort(
   (a, b) => b[0].length - a[0].length,
 );
 
-export function segmentReadings(text: string): ReadingSegment[] {
+export function segmentReadings(
+  text: string,
+  readingHint?: string,
+  wordHints?: Record<string, string>,
+): ReadingSegment[] {
+  // Headwords can have different readings in different lessons (開きます, 私…).
+  if (readingHint && han.test(text))
+    return [{ text, reading: readingHint, japanese: true }];
+  if (wordHints) {
+    const hints = Object.entries(wordHints)
+      .filter(([word]) => han.test(word))
+      .sort((a, b) => b[0].length - a[0].length);
+    const result: ReadingSegment[] = [];
+    let offset = 0;
+    let plainStart = 0;
+    while (offset < text.length) {
+      const hint = hints.find(([word]) => text.startsWith(word, offset));
+      if (hint) {
+        result.push(...segmentReadings(text.slice(plainStart, offset)), {
+          text: hint[0],
+          reading: hint[1],
+          japanese: true,
+        });
+        offset += hint[0].length;
+        plainStart = offset;
+      } else offset += String.fromCodePoint(text.codePointAt(offset)!).length;
+    }
+    result.push(...segmentReadings(text.slice(plainStart)));
+    return result;
+  }
+  const contextual = n4ContextReadings[text];
+  if (contextual)
+    return contextual.flatMap((segment) =>
+      segment.reading
+        ? [{ ...segment }]
+        : splitDictionaryReadings(segment.text),
+    );
+  return splitDictionaryReadings(text);
+}
+
+function splitDictionaryReadings(text: string): ReadingSegment[] {
   return text
     .split(japaneseRun)
     .filter(Boolean)

@@ -1,3 +1,5 @@
+import { n4LessonDetails } from './n4-lessons.ts';
+
 type LessonDetails = {
   title: string;
   description: string;
@@ -7,6 +9,7 @@ type LessonDetails = {
 };
 
 export const lessonDetails: Record<number, LessonDetails> = {
+  ...n4LessonDetails,
   1: {
     title: 'Xin chào, tôi là…',
     description: 'Giới thiệu tên, nghề nghiệp, quốc tịch và làm quen.',

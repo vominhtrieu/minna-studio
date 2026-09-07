@@ -53,13 +53,17 @@ function ReadingWord({ text, reading }: { text: string; reading: string }) {
 export default function JapaneseText({
   text,
   readings = true,
+  readingHint,
+  wordHints,
 }: {
   text: string;
   readings?: boolean;
+  readingHint?: string;
+  wordHints?: Record<string, string>;
 }) {
   return (
     <TooltipProvider delay={120}>
-      {segmentReadings(text).map((segment, i) => (
+      {segmentReadings(text, readingHint, wordHints).map((segment, i) => (
         <Fragment key={`${i}-${segment.text}`}>
           {segment.reading && readings ? (
             <ReadingWord text={segment.text} reading={segment.reading} />

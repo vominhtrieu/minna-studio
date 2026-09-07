@@ -22,6 +22,7 @@ import {
   buildTranslationTiles,
 } from '@/lib/translation-tiles';
 import JapaneseText from './japanese-text';
+import { segmentReadings } from '@/lib/furigana';
 type Mode = 'choice' | 'vi-ja' | 'ja-vi' | 'listening';
 type Question = {
   id: string;
@@ -543,7 +544,7 @@ export default function Practice({
           <span>{q.choice?.topic ?? translation?.topic}</span>
         </div>
         <h3 className="question-prompt">
-          <JapaneseText text={prompt} />
+          <JapaneseText text={prompt} wordHints={q.choice?.readingHints} />
         </h3>
         {isOptionQuestion && (
           <p className="muted practice-reading-hint">
@@ -563,7 +564,10 @@ export default function Practice({
               <Volume2 size={21} />
               {speaking ? 'Đang phát…' : 'Nghe câu'}
             </button>
-            <span>Tốc độ luyện nghe N5 · có thể phát lại</span>
+            <span>
+              Tốc độ luyện nghe {lesson.id >= 26 ? 'N4' : 'N5'} · có thể phát
+              lại
+            </span>
             {speechWarning && <output>{speechWarning}</output>}
           </div>
         )}
@@ -596,7 +600,10 @@ export default function Practice({
                 />
                 <span className="option-letter">{'ABCD'[i]}</span>
                 <span className="option-copy">
-                  <JapaneseText text={option} />
+                  <JapaneseText
+                    text={option}
+                    wordHints={q.choice?.readingHints}
+                  />
                 </span>
                 <RadioGroupItem
                   id={`answer-${q.id}-${i}`}
@@ -621,7 +628,16 @@ export default function Practice({
                         aria-label={`Bỏ từ ${tile.text}`}
                       />
                       <span lang={q.mode === 'vi-ja' ? 'ja' : 'vi'}>
-                        <JapaneseText text={tile.text} />
+                        <JapaneseText
+                          text={tile.text}
+                          readingHint={
+                            q.mode === 'vi-ja'
+                              ? segmentReadings(translation!.jp).find(
+                                  (segment) => segment.text === tile.text,
+                                )?.reading
+                              : undefined
+                          }
+                        />
                       </span>
                     </div>
                   ))
@@ -646,7 +662,16 @@ export default function Practice({
                         aria-label={`Chọn từ ${tile.text}`}
                       />
                       <span lang={q.mode === 'vi-ja' ? 'ja' : 'vi'}>
-                        <JapaneseText text={tile.text} />
+                        <JapaneseText
+                          text={tile.text}
+                          readingHint={
+                            q.mode === 'vi-ja'
+                              ? segmentReadings(translation!.jp).find(
+                                  (segment) => segment.text === tile.text,
+                                )?.reading
+                              : undefined
+                          }
+                        />
                       </span>
                     </div>
                   ))}
@@ -709,7 +734,7 @@ export default function Practice({
               className="sample-answer"
               lang={q.mode === 'ja-vi' || isListening ? 'vi' : 'ja'}
             >
-              <JapaneseText text={sample} />
+              <JapaneseText text={sample} wordHints={q.choice?.readingHints} />
             </p>
             {isListening && (
               <div className="listening-transcript">
@@ -728,6 +753,7 @@ export default function Practice({
             <p>
               <JapaneseText
                 text={q.choice?.explanation ?? translation!.explanation}
+                wordHints={q.choice?.readingHints}
               />
             </p>
           </div>

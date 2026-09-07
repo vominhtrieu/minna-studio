@@ -43,7 +43,7 @@ export default function StudyApp({
           <div>
             <div className="eyebrow">
               LESSON {lessonId}
-              <span lang="ja">みんなの日本語</span>
+              <span>MINNA {lessonId >= 26 ? 'II · N4' : 'I · N5'}</span>
             </div>
             <h1>{details.title}</h1>
             <p>{details.description}</p>
@@ -211,7 +211,7 @@ export default function StudyApp({
                 <p>
                   {section === 'vocabulary'
                     ? `Khám phá mẫu câu của bài ${lessonId}.`
-                    : 'Luyện tập với 3 dạng câu hỏi.'}
+                    : 'Luyện trắc nghiệm, ghép câu và nghe hiểu.'}
                 </p>
                 <span>
                   {section === 'vocabulary' ? 'Học ngữ pháp' : 'Luyện tập ngay'}
@@ -226,20 +226,20 @@ export default function StudyApp({
             minna studio <span className="footer-dot">•</span> Từng chút một,
             mỗi ngày.
           </span>
-          <span>Nội dung luyện tập tự biên soạn · Bài 1–25</span>
+          <span>Nội dung luyện tập tự biên soạn · Bài 1–50</span>
         </footer>
         <details className="source-note">
           <summary>Về nội dung học & nguồn đối chiếu</summary>
           <p>
             Ứng dụng học bổ trợ độc lập, không phải sản phẩm chính thức của 3A
-            Corporation. Từ vựng cốt lõi và mở rộng hội thoại bài 1–25; một số
+            Corporation. Từ vựng cốt lõi và mở rộng hội thoại bài 1–50; một số
             từ có thể khác giữa các ấn bản Minna no Nihongo. Ví dụ và câu hỏi do
             ứng dụng tự biên soạn, không chép bài tập trong sách.
           </p>
           <p>
             Đối chiếu phạm vi:{' '}
             <a href={details.grammarSource} target="_blank" rel="noreferrer">
-              Riki — Bài {lessonId}
+              {lessonId >= 26 ? 'Langoal' : 'Riki'} — Bài {lessonId}
             </a>
             {lessonId <= 12 && (
               <>

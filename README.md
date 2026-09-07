@@ -1,6 +1,6 @@
 # Minna Studio
 
-Ứng dụng React 19 + TypeScript, routing theo cấu trúc thư mục (Vinext / Next-compatible), giao diện tiếng Việt cho Minna no Nihongo bài 1 đến 25.
+Ứng dụng React 19 + TypeScript, routing theo cấu trúc thư mục (Vinext / Next-compatible), giao diện tiếng Việt cho Minna no Nihongo I & II, bài 1 đến 50 (N5–N4).
 
 ## Chạy trên máy
 
@@ -25,14 +25,17 @@ Mở địa chỉ mà máy chủ in ra (mặc định http://localhost:3000).
 - Bài 16–17: nối hành động và đặc điểm; thể ない, nghĩa vụ và điều không cần làm.
 - Bài 18–21: khả năng, sở thích, kinh nghiệm, thể thông thường, ý kiến và trích dẫn.
 - Bài 22–25: mệnh đề bổ nghĩa, とき・と, cho nhận và điều kiện たら・ても.
-- Tổng cộng: 1.062 flashcard, 147 điểm ngữ pháp và 1.900 câu luyện theo từng bài. Mở đủ bài 1–25.
+- Bài 26–35: giải thích んです, khả năng, ながら・し, trạng thái tự động từ, てある・ておく, ý chí, lời khuyên, mệnh lệnh, trình tự và điều kiện ば・なら.
+- Bài 36–45: ように, bị động, danh từ hóa の, nguyên nhân, câu hỏi lồng, cho–nhận kính ngữ, mục đích, そう vẻ ngoài, すぎる・やすい・にくい, 場合・のに.
+- Bài 46–50: ところ・ばかり・はず, そう truyền tin・よう suy đoán, sai khiến, tôn kính ngữ và khiêm nhường ngữ.
+- Sơ cấp I (bài 1–25) giữ nguyên 1.062 flashcard, 147 điểm ngữ pháp và 1.900 câu luyện. Sơ cấp II (bài 26–50) thêm 1.040 flashcard, 125 điểm ngữ pháp và 1.900 câu luyện: 40 trắc nghiệm + 12 câu mỗi dạng Việt→Nhật, Nhật→Việt và nghe ở mỗi bài. Tổng cộng 2.102 flashcard, 272 điểm ngữ pháp, 3.800 câu luyện theo bài.
 - Trang tổng ôn N5 có một ngân hàng chung gồm 1.000 câu trắc nghiệm và 100 câu riêng cho mỗi dạng Việt → Nhật, Nhật → Việt, nghe hiểu. Dữ liệu được xếp xen kẽ theo bài để cả 25 bài xuất hiện sớm; kèm hai chuyên đề 206 trường hợp số đếm và 288 tổ hợp chia động từ.
 - Mỗi bài: 40 trắc nghiệm, 12 ghép câu Việt → Nhật, 12 ghép câu Nhật → Việt và 12 câu nghe hiểu. Mỗi câu ghép có đủ từ của đáp án và thêm 4–6 từ gây nhiễu lấy từ nội dung cùng bài.
 - Ba dạng ghép câu và nghe hiểu được chia ngân hàng câu riêng. App dùng tối đa câu khác nhau trước, tránh trùng nguyên văn với trắc nghiệm và chỉ tái sử dụng khi bài đó không còn đủ ví dụ phù hợp.
-- Phần nghe dùng giọng tiếng Nhật có sẵn trên thiết bị, tự phát khi mỗi câu xuất hiện, phát chậm vừa cho trình độ N5 và cho nghe lại không giới hạn trước khi trả lời. Câu Nhật, cách đọc và giải thích chỉ hiện sau khi nộp đáp án.
+- Phần nghe dùng giọng tiếng Nhật có sẵn trên thiết bị, tự phát khi mỗi câu xuất hiện, phát chậm vừa để học và cho nghe lại không giới hạn trước khi trả lời. Câu Nhật, cách đọc và giải thích chỉ hiện sau khi nộp đáp án. Khả năng phát tự động còn phụ thuộc chính sách trình duyệt và giọng Nhật được cài trên thiết bị.
 - Flashcard có cách đọc, nghĩa, ví dụ, đảo chiều, trộn thẻ và đánh dấu nhớ/cần ôn. Từ đã nhớ mặc định được ẩn khỏi lượt học; công tắc “Hiện từ đã nhớ” có thể đưa chúng trở lại để ôn cả bộ.
 - Furigana theo từ/cụm từ: rê chuột, chạm hoặc focus từ Kanji để xem; Esc hoặc chạm ra ngoài để đóng. Áp dụng trong ngữ pháp, flashcard, câu hỏi và lựa chọn trắc nghiệm, câu dịch/giải thích. Trong bài tập, cách đọc có sẵn trước khi nộp; đáp án đúng và giải thích vẫn ẩn. Chạm Kanji chỉ mở cách đọc, không chọn/nộp đáp án. Mặt trước flashcard không hiện sẵn dòng cách đọc; công tắc Cách đọc bật hoặc tắt khả năng xem Furigana khi tương tác với Kanji.
-- Văn bản trộn Việt–Nhật được tách ngôn ngữ để tiếng Việt có dấu dùng đúng phông. Dữ liệu furigana được biên soạn cho 25 bài, không tự đoán cách đọc từ mới.
+- Văn bản trộn Việt–Nhật được tách ngôn ngữ để tiếng Việt có dấu dùng đúng phông. Furigana cho 50 bài; dữ liệu N4 có chú thích đọc theo câu để phân biệt từ đồng tự như 開きます (ひらきます / あきます), 私 (わたし / わたくし). Flashcard, câu hỏi từ vựng và ô ghép từ giữ cách đọc đúng ngữ cảnh. Hán Việt có bổ sung các dạng chữ Nhật; chữ tự tạo như 込 có ghi chú thay vì đoán âm Hán Việt.
 - Mọi câu dịch yêu cầu chọn và sắp xếp từ trước khi mở đáp án. Có giải thích, tổng kết và luyện lại các câu cần ôn.
 - Trang luyện chuyên đề có 206 trường hợp số đếm trong 18 nhóm và 288 tổ hợp chia động từ: 18 dạng, đủ các đuôi nhóm I, nhóm II, する・来る và ngoại lệ 行く. Người học phải tự gõ đáp án; cách viết Kanji hoặc hiragana đều được chấp nhận khi chia động từ.
 
@@ -40,10 +43,10 @@ Mở địa chỉ mà máy chủ in ra (mặc định http://localhost:3000).
 
 Các trang vẫn được định tuyến bởi Vinext; liên kết dùng điều hướng tài liệu gốc (`<a>`) để tránh lỗi RSC client navigation trong bản production hiện tại. Chuyển mục sẽ tải trang mới, giữ hỗ trợ Back/Forward và mở tab mới. Tiến độ từ vựng lưu localStorage không bị mất.
 
-- `/`: trang chủ hiển thị đủ 25 bài; mỗi bài có liên kết Từ vựng, Ngữ pháp và Luyện tập. Thanh điều hướng có lối về Trang chủ, Tổng ôn N5 và Luyện chuyên đề.
-- `/lessons/{1…25}/vocabulary`.
-- `/lessons/{1…25}/grammar`.
-- `/lessons/{1…25}/practice`.
+- `/`: trang chủ hiển thị đủ 50 bài theo hai quyển, với lối chuyển nhanh `#minna-i` và `#minna-ii`; mỗi bài có liên kết Từ vựng, Ngữ pháp và Luyện tập. Thanh điều hướng có lối về Trang chủ, Tổng ôn N5 và Luyện chuyên đề.
+- `/lessons/{1…50}/vocabulary`.
+- `/lessons/{1…50}/grammar`.
+- `/lessons/{1…50}/practice`.
 - `/drills`: luyện toàn bộ số đếm và chia động từ.
 - `/review`: tổng ôn toàn bộ bài 1–25, số đếm và chia động từ.
 - Bài hoặc phân mục không hợp lệ trả về trang 404.
@@ -51,6 +54,10 @@ Các trang vẫn được định tuyến bởi Vinext; liên kết dùng điề
 ## Dữ liệu & giới hạn
 
 Nội dung bài 1–9 và 12–25 được tách thành từng tệp `lib/lesson-{số bài}.ts`; bài 10–11 được giữ trong `lib/lessons.ts`. Danh sách bài trên trang chủ và kiểm tra route lấy từ `lessonIds`, phần tiêu đề/ghi chú ở `lib/lesson-details.ts`. Chấm câu dịch ở `lib/grading.ts`, dùng chung bộ tách cách đọc với furigana để không đọc sai một phần từ ghép (ví dụ 電話しています). Dữ liệu và quy tắc luyện số đếm/chia động từ nằm ở `lib/drills.ts`.
+
+Bài 26–50 nằm trong năm tệp `lib/n4-{nhóm bài}.ts`, dùng `n4-builder.ts` và cú pháp `{漢字:かな}` để biên soạn đồng thời văn bản/cách đọc. Từ vựng gồm phần cốt lõi và phần mở rộng hội thoại/bài đọc, không đưa mọi tên nhân vật hoặc thương hiệu giả định vào flashcard. Phạm vi đối chiếu Minna II bản 2; không phải danh sách từ chính thức của JLPT và có thể khác các ấn bản. Ví dụ tiếng Nhật, bản dịch tiếng Việt và câu hỏi là nội dung tự biên soạn, không sao chép bài tập sách.
+
+Nguồn đối chiếu phần II: [phạm vi bài 26–50 của 3A](https://plus.3anet.co.jp/mnc/contents/), [giáo án theo bài của Langoal](https://langoal.com/minnano-nihongo-teaching-plan/lesson-26.html) (mỗi bài có liên kết tương ứng trong ứng dụng), và [danh mục từ vựng MinnaNoDS](https://github.com/vitto4/MinnaNoDS). Bộ kiểm tra bảo vệ phạm vi tổng ôn N5, cách đọc theo ngữ cảnh và 36 câu nghe/dịch không trùng giữa các dạng ở từng bài N4.
 
 Các ví dụ, bản dịch tiếng Việt, giải thích và câu hỏi đều tự biên soạn. Không phải ứng dụng chính thức của nhà xuất bản. Từ vựng đã được rà soát lại với danh sách Minna no Nihongo I ấn bản 2 của [MinnaNoDS](https://github.com/vitto4/MinnaNoDS) và danh sách theo bài của [Langoal](https://langoal.com/en/vocabulary/minna/1). Tên nhân vật, công ty giả và địa danh chỉ dùng làm ngữ liệu trong sách không được biến thành flashcard riêng; các quốc gia, địa danh và cụm giao tiếp có giá trị tái sử dụng vẫn được giữ. Nguồn ngữ pháp Riki theo đúng số bài được dẫn ở cuối mỗi trang.
 

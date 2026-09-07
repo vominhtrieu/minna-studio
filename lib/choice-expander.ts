@@ -20,6 +20,9 @@ export function expandLessonChoices(lesson: Lesson): Lesson {
   const extraCount = Math.max(0, choiceQuestionTarget - lesson.choices.length);
   if (extraCount === 0) return lesson;
   const quizWords = lesson.words.filter((word) => !word.jp.includes('～'));
+  const readingHints = Object.fromEntries(
+    quizWords.map((item) => [item.jp, item.kana]),
+  );
 
   const extras: ChoiceQuestion[] = Array.from(
     { length: extraCount },
@@ -55,6 +58,7 @@ export function expandLessonChoices(lesson: Lesson): Lesson {
         options,
         correct,
         topic: 'Từ vựng trong bài',
+        readingHints,
         explanation: `「${word.jp}」（${word.kana}）nghĩa là “${word.vi}”.`,
       };
     },
