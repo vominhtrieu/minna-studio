@@ -1069,10 +1069,12 @@ h1 {
 }
 .grammar-details {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
   margin: 22px 0;
 }
 .grammar-detail {
+  min-width: 0;
   padding: 18px;
   border: 1px solid var(--border);
   border-radius: 9px;
@@ -1097,6 +1099,25 @@ h1 {
 }
 .grammar-detail li + li {
   margin-top: 10px;
+}
+.grammar-table {
+  font-size: 16px;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+.grammar-table th,
+.grammar-table td {
+  padding: 10px 12px;
+  white-space: normal;
+}
+.grammar-table th {
+  color: #206349;
+  background: #f1f6f2;
+  font-size: 14px;
+}
+.grammar-table caption {
+  font-size: 14px;
+  text-align: left;
 }
 .grammar-example p {
   font-size: 15px;

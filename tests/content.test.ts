@@ -108,6 +108,13 @@ void test('All authored grammar, vocabulary examples and practice text have read
           detail.title,
           detail.explanation,
           ...detail.examples,
+          ...(detail.table
+            ? [
+                detail.table.caption,
+                ...detail.table.headers,
+                ...detail.table.rows.flat(),
+              ]
+            : []),
         ]),
       ]),
       ...lesson.words.map((w) => w.example),
@@ -274,7 +281,7 @@ void test('Verb drill generates every form for every verb group and irregular ve
   );
 });
 
-void test('N5 content remains 1062 flashcards, 147 grammar notes and 1900 lesson exercises', () => {
+void test('N5 content contains 1062 flashcards, 150 grammar notes and 1900 lesson exercises', () => {
   assert.deepEqual(n5LessonIds.map(String), [
     '1',
     '2',
@@ -312,7 +319,7 @@ void test('N5 content remains 1062 flashcards, 147 grammar notes and 1900 lesson
     n5LessonIds
       .map((id) => lessons[id])
       .reduce((n, l) => n + l.grammar.length, 0),
-    147,
+    150,
   );
   assert.equal(
     n5LessonIds
@@ -335,6 +342,100 @@ void test('Lesson 16 distinguishes 下ろします from 出します', () => {
         segment.text === '下ろして' && segment.reading === 'おろして',
     ),
   );
+});
+void test('Lesson 18 explains dictionary forms, ability, hobbies and all three 前に patterns', () => {
+  const lesson = lessons[18];
+  assert.equal(lesson.grammar.length, 9);
+  const dictionary = lesson.grammar[0];
+  assert.equal(dictionary.details?.length, 3);
+  const [groupI, groupII, groupIII] = dictionary.details!;
+  const expectedReadings = [
+    ['かいます', 'かう'],
+    ['かきます', 'かく'],
+    ['およぎます', 'およぐ'],
+    ['はなします', 'はなす'],
+    ['まちます', 'まつ'],
+    ['しにます', 'しぬ'],
+    ['あそびます', 'あそぶ'],
+    ['よみます', 'よむ'],
+    ['かえります', 'かえる'],
+  ];
+  assert.deepEqual(
+    groupI.table?.rows.map((row) =>
+      row.slice(1).map((text) => normalizeJapanese(text)),
+    ),
+    expectedReadings,
+  );
+  assert.deepEqual(
+    groupI.table?.rows.map((row) => row[0]),
+    [
+      'い → う',
+      'き → く',
+      'ぎ → ぐ',
+      'し → す',
+      'ち → つ',
+      'に → ぬ',
+      'び → ぶ',
+      'み → む',
+      'り → る',
+    ],
+  );
+  assert.ok(
+    groupII.table?.rows.some(
+      (row) => row[0] === '借ります' && row[1] === '借りる',
+    ),
+  );
+  assert.ok(
+    groupII.table?.rows.some(
+      (row) => row[0] === 'できます' && row[1] === 'できる',
+    ),
+  );
+  assert.ok(
+    groupIII.table?.rows.some(
+      (row) => row[0] === '来ます（きます）' && row[1] === '来る（くる）',
+    ),
+  );
+  for (const detail of dictionary.details!) {
+    assert.ok(detail.table!.caption);
+    assert.ok(
+      detail.table!.rows.every(
+        (row) => row.length === detail.table!.headers.length,
+      ),
+    );
+  }
+  const text = JSON.stringify(lesson.grammar);
+  assert.doesNotMatch(text, /trong hội thoại を đôi khi vẫn xuất hiện/);
+  assert.match(text, /N ができます/);
+  assert.match(text, /V thể từ điển \+ ことができます/);
+  assert.match(text, /ことができませんでした/);
+  assert.match(text, /日本語を話すことができます/);
+  assert.match(text, /趣味は N です \/ 趣味は V thể từ điển \+ ことです/);
+  assert.match(text, /昨日、寝る前に本を読みました/);
+  assert.match(text, /N chỉ sự kiện hoặc hoạt động \+ の前に/);
+  assert.match(text, /Khoảng thời gian \+ 前に/);
+  assert.ok(
+    lesson.grammar.some(
+      (g) => g.title.startsWith('なかなか') && g.example.includes('できません'),
+    ),
+  );
+  assert.ok(
+    lesson.grammar.some(
+      (g) =>
+        g.title.startsWith('ぜひ') &&
+        g.details?.some((d) =>
+          d.examples.some((s) => s.includes('てください')),
+        ),
+    ),
+  );
+  assert.equal(
+    lesson.choices.filter((q) => q.topic !== 'Từ vựng trong bài').length,
+    24,
+  );
+  assert.equal(
+    lesson.choices.filter((q) => q.topic === 'Từ vựng trong bài').length,
+    16,
+  );
+  assert.equal(lesson.translations.length, 12);
 });
 void test('Navigation, lesson metadata and route validation cover only published lessons', () => {
   assert.deepEqual(
@@ -367,7 +468,7 @@ void test('Navigation, lesson metadata and route validation cover only published
 });
 void test('N5 review combines every lesson into one large balanced bank', () => {
   assert.equal(reviewLesson.words.length, 1062);
-  assert.equal(reviewLesson.grammar.length, 147);
+  assert.equal(reviewLesson.grammar.length, 150);
   assert.equal(reviewLesson.choices.length, 1000);
   assert.equal(reviewLesson.translations.length, 300);
 
@@ -586,16 +687,18 @@ for (const lesson of Object.values(lessons)) {
       assert.ok(Number.isInteger(q.correct) && q.correct >= 0 && q.correct < 4);
       assert.ok(q.explanation.length > 15);
     }
-    const added = lesson.choices.slice(12);
+    const authoredCount = lesson.id === 18 ? 24 : 12;
+    const vocabularyPerDirection = (40 - authoredCount) / 2;
+    const added = lesson.choices.slice(authoredCount);
     assert.equal(
       added.filter((question) => question.prompt.startsWith('「')).length,
-      14,
+      vocabularyPerDirection,
     );
     assert.equal(
       added.filter((question) =>
         question.prompt.startsWith('Chọn từ tiếng Nhật'),
       ).length,
-      14,
+      vocabularyPerDirection,
     );
   });
   void test(`Lesson ${lesson.id}: kanji, kana and every declared translation variant match`, () => {

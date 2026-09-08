@@ -1,9 +1,5 @@
-import {
-  choiceRows,
-  defineLesson,
-  grammarRows,
-  translationRows,
-} from './lesson-builder.ts';
+import { choiceRows, defineLesson, translationRows } from './lesson-builder.ts';
+import { lesson18Grammar } from './lesson-18-grammar.ts';
 
 export const lesson18 = defineLesson(18, {
   words: `
@@ -33,14 +29,7 @@ export const lesson18 = defineLesson(18, {
 ぜひ|ぜひ|nhất định, rất mong|Phó từ|ぜひ遊びに来てください。|Nhất định hãy đến chơi nhé.
 なかなか|なかなか|mãi mà; khá là|Phó từ|日本ではなかなか馬に乗ることができません。|Ở Nhật khó có dịp cưỡi ngựa.
 `,
-  grammar: grammarRows(`
-Thể từ điển|Nhóm I: âm hàng い → hàng う / Nhóm II: bỏ ます + る / Nhóm III: する・くる|Thể từ điển là dạng cơ bản của động từ, dùng trước nhiều mẫu ngữ pháp. 書きます thành 書く, 食べます thành 食べる.|読みます → 読む。見ます → 見る。|読みます thành 読む. 見ます thành 見る.|Một số động từ kết thúc bằng います thuộc nhóm II như 見ます; cần học theo nhóm.
-Nói khả năng|N が / V thể từ điển + ことができます|Dùng できます với danh từ kỹ năng, hoặc biến hành động thành danh từ bằng こと để nói có thể làm.|漢字を読むことができます。|Tôi có thể đọc Kanji.|Đối tượng kỹ năng thường đi với が; trong hội thoại を đôi khi vẫn xuất hiện.
-Nói sở thích|趣味は N / V thể từ điển + ことです|Dùng こと để biến một hành động thành nội dung của sở thích.|私の趣味は写真を撮ることです。|Sở thích của tôi là chụp ảnh.|Không chia động từ đứng trước こと ở thể ます.
-Trước khi làm|V thể từ điển + 前に、～|Hành động sau diễn ra trước khi hành động V bắt đầu. Động từ trước 前に luôn ở thể từ điển.|寝る前に日記を書きます。|Tôi viết nhật ký trước khi ngủ.|Dù câu ở quá khứ, động từ trước 前に vẫn dùng thể từ điển.
-Trước một mốc|N の / Khoảng thời gian + 前に、～|Danh từ cần の trước 前に; khoảng thời gian như 一時間前に không dùng の.|会議の前に資料を読みます。|Tôi đọc tài liệu trước cuộc họp.|Phân biệt 三時前に là trước ba giờ và 三時間前に là ba giờ trước.
-Nhấn mạnh mong muốn|ぜひ + lời mời hoặc nguyện vọng|ぜひ thể hiện mong muốn mạnh và thường đi với たいです hoặc てください.|ぜひ京都へ行きたいです。|Tôi rất muốn đến Kyoto.|なかなか đi với phủ định để nói khó thực hiện hoặc mãi chưa đạt được.
-`),
+  grammar: lesson18Grammar,
   choices: choiceRows(`
 Chọn thể từ điển của 書きます.|書きる~書く~書き~書いた|1|Thể từ điển nhóm I|Âm き đổi về âm hàng う tương ứng là く.
 Chọn thể từ điển của 食べます.|食べる~食ぶ~食べく~食べ|0|Thể từ điển nhóm II|Nhóm II bỏ ます rồi thêm る.
@@ -54,6 +43,18 @@ Chọn thể từ điển của 食べます.|食べる~食ぶ~食べく~食べ|
 （　）北海道へ行きたいです。|ぜひ~まだ~もう~だけ|0|ぜひ|ぜひ nhấn mạnh mong muốn rất muốn đi.
 食事の前に手を（　）。|洗います~洗う前に~洗ってから~洗いましたか|0|Nの前に|Hành động chính sau cụm 食事の前に chia theo câu: 洗います.
 駅でお金を換えることが（　）か。|あります~できます~います~なります|1|Hỏi khả năng|できますか hỏi ở ga có thể đổi tiền không.
+Chọn thể từ điển của 待ちます.|待ちる~待つ~待て~待った|1|Thể từ điển nhóm I|Nhóm I bỏ ます rồi đổi ち thành つ: 待ちます → 待つ.
+Chọn thể từ điển của 泳ぎます.|泳ぎる~泳いで~泳ぐ~泳ごう|2|Thể từ điển nhóm I|Nhóm I đổi âm ぎ trước ます thành ぐ; thể từ điển là 泳ぐ.
+Chọn thể từ điển của 話します.|話する~話して~話しる~話す|3|Nhận đúng nhóm|話します thuộc nhóm I: bỏ ます và đổi し thành す, không đổi します thành する.
+Chọn thể từ điển của 借ります.|借る~借りる~借って~借りまする|1|Ngoại lệ nhóm II|借ります thuộc nhóm II dù có âm り trước ます: giữ 借り rồi thêm る.
+Chọn cách đổi 来ます sang thể từ điển, gồm cả cách đọc.|来る（くる）~来る（きる）~来まする（きまする）~来て（きて）|0|Thể từ điển nhóm III|来ます đọc きます; thể từ điển là 来る, đọc くる.
+妹はピアノ（　）できます。|を~に~が~で|2|Nができます|ピアノ là danh từ chỉ kỹ năng; nối bằng が trong mẫu Nができます.
+私は日本語（　）話すことができます。|が~を~の~へ|1|Trợ từ bên trong hành động|を đánh dấu tân ngữ của 話す. が vẫn đứng sau こと; không đổi を thành が ở đây.
+Không thể làm một việc: 読むことができます đổi thành câu nào?|読まないことができます~読むことができません~読むことがありません~読みますことができません|1|Phủ định khả năng|Đổi できます thành できません; giữ 読む ở thể từ điển.
+この図書館では本を借りることができます。 Câu này nhấn mạnh điều gì?|Người nói đang mượn sách~Người nói muốn học đọc~Dịch vụ cho phép mượn sách ở đây~Người nói đã mượn sách hôm qua|2|Khả năng do điều kiện|Có thể thực hiện hành động vì thư viện có dịch vụ cho mượn sách, không phải đang kể về kỹ năng của người nói.
+Sở thích là du lịch: 趣味は（　）。|旅行ことです~旅行です~旅行ができます~旅行前にです|1|Sở thích bằng danh từ|Danh từ 旅行 nối trực tiếp với です, không thêm こと.
+昨日、日本へ（　）前に、家族に電話しました。|来た~来ます~来て~来る|3|前に trong câu quá khứ|Dù 電話しました ở quá khứ, động từ trước 前に vẫn là thể từ điển 来る.
+Ghép ý “Chờ mãi mà xe buýt chưa đến”: バスがなかなか（　）。|来ません~来ます~来たいです~来ることです|0|なかなか và phủ định|Trong nghĩa mãi chưa có kết quả mong đợi, なかなか đi với phủ định 来ません.
 `),
   translations: translationRows(`
 私は漢字を読むことができます。|わたしはかんじをよむことができます。|Tôi có thể đọc Kanji.|Khả năng|読む ở thể từ điển đứng trước ことができます.

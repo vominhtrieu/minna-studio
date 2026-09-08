@@ -2,6 +2,15 @@ import Link from './app-link';
 import { ArrowRight } from 'lucide-react';
 import type { Lesson } from '@/lib/lessons';
 import JapaneseText from './japanese-text';
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 export default function Grammar({ lesson }: { lesson: Lesson }) {
   return (
     <section>
@@ -36,13 +45,42 @@ export default function Grammar({ lesson }: { lesson: Lesson }) {
                     <p>
                       <JapaneseText text={detail.explanation} />
                     </p>
-                    <ul>
-                      {detail.examples.map((example) => (
-                        <li key={example}>
-                          <JapaneseText text={example} />
-                        </li>
-                      ))}
-                    </ul>
+                    {detail.table && (
+                      <Table className="grammar-table">
+                        <TableCaption>
+                          <JapaneseText text={detail.table.caption} />
+                        </TableCaption>
+                        <TableHeader>
+                          <TableRow>
+                            {detail.table.headers.map((header) => (
+                              <TableHead key={header} scope="col">
+                                <JapaneseText text={header} />
+                              </TableHead>
+                            ))}
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {detail.table.rows.map((row) => (
+                            <TableRow key={row[0]}>
+                              {row.map((cell, index) => (
+                                <TableCell key={index}>
+                                  <JapaneseText text={cell} />
+                                </TableCell>
+                              ))}
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    )}
+                    {detail.examples.length > 0 && (
+                      <ul>
+                        {detail.examples.map((example) => (
+                          <li key={example}>
+                            <JapaneseText text={example} />
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </section>
                 ))}
               </div>

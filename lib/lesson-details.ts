@@ -141,7 +141,8 @@ export const lessonDetails: Record<number, LessonDetails> = {
     description: 'Nói về khả năng, sở thích và việc làm trước một mốc.',
     tipTitle: 'Động từ về dạng gốc.',
     tip: 'Trước こと và 前に, động từ dùng thể từ điển: 読むことができます, 寝る前に.',
-    grammarSource: 'https://riki.edu.vn/minna-no-nihongo/bai-18',
+    grammarSource:
+      'https://langoal.com/minnano-nihongo-teaching-plan/lesson-18.html',
   },
   19: {
     title: 'Những điều từng trải.',

@@ -24,11 +24,12 @@ Mở địa chỉ mà máy chủ in ra (mặc định http://localhost:3000).
 - Bài 15: 29 flashcard, 6 điểm ngữ pháp, 76 câu luyện tập — xin phép, cấm đoán, trạng thái và công việc lâu dài.
 - Bài 16–17: nối hành động và đặc điểm; thể ない, nghĩa vụ và điều không cần làm.
 - Bài 18–21: khả năng, sở thích, kinh nghiệm, thể thông thường, ý kiến và trích dẫn.
+- Bài 18 có 9 mục ngữ pháp: bảng đổi thể từ điển đầy đủ ba nhóm; khả năng với danh từ và động từ; sở thích; ba dạng 前に; なかなか～ません và ぜひ. Có ví dụ hỏi–đáp, phủ định, cách dùng quá khứ và phân biệt trợ từ. 40 câu trắc nghiệm gồm 24 câu ngữ pháp và 16 câu từ vựng; từ vựng và số câu dịch/nghe giữ nguyên. Đối chiếu [Langoal](https://langoal.com/minnano-nihongo-teaching-plan/lesson-18.html) và [Riki](https://riki.edu.vn/minna-no-nihongo/bai-18); ví dụ bổ sung tự biên soạn.
 - Bài 22–25: mệnh đề bổ nghĩa, とき・と, cho nhận và điều kiện たら・ても.
 - Bài 26–35: giải thích んです, khả năng, ながら・し, trạng thái tự động từ, てある・ておく, ý chí, lời khuyên, mệnh lệnh, trình tự và điều kiện ば・なら.
 - Bài 36–45: ように, bị động, danh từ hóa の, nguyên nhân, câu hỏi lồng, cho–nhận kính ngữ, mục đích, そう vẻ ngoài, すぎる・やすい・にくい, 場合・のに.
 - Bài 46–50: ところ・ばかり・はず, そう truyền tin・よう suy đoán, sai khiến, tôn kính ngữ và khiêm nhường ngữ.
-- Sơ cấp I (bài 1–25) giữ nguyên 1.062 flashcard, 147 điểm ngữ pháp và 1.900 câu luyện. Sơ cấp II (bài 26–50) thêm 1.040 flashcard, 125 điểm ngữ pháp và 1.900 câu luyện: 40 trắc nghiệm + 12 câu mỗi dạng Việt→Nhật, Nhật→Việt và nghe ở mỗi bài. Tổng cộng 2.102 flashcard, 272 điểm ngữ pháp, 3.800 câu luyện theo bài.
+- Sơ cấp I (bài 1–25) có 1.062 flashcard, 150 điểm ngữ pháp và 1.900 câu luyện. Sơ cấp II (bài 26–50) thêm 1.040 flashcard, 125 điểm ngữ pháp và 1.900 câu luyện: 40 trắc nghiệm + 12 câu mỗi dạng Việt→Nhật, Nhật→Việt và nghe ở mỗi bài. Tổng cộng 2.102 flashcard, 275 điểm ngữ pháp, 3.800 câu luyện theo bài.
 - Trang tổng ôn N5 có một ngân hàng chung gồm 1.000 câu trắc nghiệm và 100 câu riêng cho mỗi dạng Việt → Nhật, Nhật → Việt, nghe hiểu. Dữ liệu được xếp xen kẽ theo bài để cả 25 bài xuất hiện sớm; kèm hai chuyên đề 206 trường hợp số đếm và 288 tổ hợp chia động từ.
 - Mỗi bài: 40 trắc nghiệm, 12 ghép câu Việt → Nhật, 12 ghép câu Nhật → Việt và 12 câu nghe hiểu. Mỗi câu ghép có đủ từ và dấu câu của đáp án, thêm 4–6 từ gây nhiễu lấy từ nội dung cùng bài. Dấu câu là mảnh riêng, phải chọn và đặt đúng vị trí; áp dụng cả phần tổng ôn.
 - Ba dạng ghép câu và nghe hiểu được chia ngân hàng câu riêng. App dùng tối đa câu khác nhau trước, tránh trùng nguyên văn với trắc nghiệm và chỉ tái sử dụng khi bài đó không còn đủ ví dụ phù hợp.

@@ -45,6 +45,11 @@ export type Grammar = {
     title: string;
     explanation: string;
     examples: string[];
+    table?: {
+      caption: string;
+      headers: string[];
+      rows: string[][];
+    };
   }[];
 };
 export type ChoiceQuestion = {
