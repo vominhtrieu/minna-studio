@@ -84,6 +84,10 @@ function containsWordCharacter(value: string) {
   return /[\p{L}\p{N}]/u.test(value);
 }
 
+export function isPunctuationTile(value: string) {
+  return /^[\p{P}\p{S}]+$/u.test(value);
+}
+
 function tokenizeJapaneseRun(value: string): string[] {
   if (!japaneseSegmenter) return containsWordCharacter(value) ? [value] : [];
 
@@ -110,25 +114,50 @@ export function tokenizeTranslation(
 ): string[] {
   if (mode === 'ja-vi') {
     return (
-      text.normalize('NFC').match(/[\p{L}\p{N}]+(?:[-’'][\p{L}\p{N}]+)*/gu) ??
-      []
+      text
+        .normalize('NFC')
+        .match(/[\p{L}\p{N}\p{M}]+|[^\s\p{L}\p{N}\p{M}]/gu) ?? []
     );
   }
 
-  return segmentReadings(text).flatMap((segment) => {
-    if (!containsWordCharacter(segment.text)) return [];
-    if (!segment.japanese) {
-      return segment.text.match(/[\p{L}\p{N}]+/gu) ?? [];
-    }
-    return segment.reading ? [segment.text] : tokenizeJapaneseRun(segment.text);
-  });
+  // Keep the full sentence's reading context, but make punctuation selectable
+  // even when it appears inside a compound or next to an inflected verb.
+  return segmentReadings(text).flatMap((segment) =>
+    segment.text.split(/([\p{P}\p{S}])/u).flatMap((run) => {
+      if (isPunctuationTile(run)) return [run];
+      if (!containsWordCharacter(run)) return [];
+      if (!segment.japanese) return run.match(/[\p{L}\p{N}\p{M}]+/gu) ?? [];
+      return segment.reading ? [run] : tokenizeJapaneseRun(run);
+    }),
+  );
 }
 
 export function assembleTranslationTiles(
   tiles: readonly TranslationTile[],
   mode: TranslationMode,
 ) {
-  return tiles.map((tile) => tile.text).join(mode === 'vi-ja' ? '' : ' ');
+  if (mode === 'vi-ja') return tiles.map((tile) => tile.text).join('');
+
+  let result = '';
+  let previous = '';
+  let insideQuote = false;
+  let previousOpenedQuote = false;
+  for (const { text } of tiles) {
+    const closesQuote = text === '"' && insideQuote;
+    const opensQuote = text === '"' && !insideQuote;
+    const attachesLeft = /^[,.;:!?…%\p{Pe}\p{Pf}]$/u.test(text) || closesQuote;
+    const attachesRight =
+      /^[\p{Ps}\p{Pi}]$/u.test(previous) || previousOpenedQuote;
+    const joinsWords = /^[-/']$/u.test(text) || /^[-/']$/u.test(previous);
+    result +=
+      !result || attachesLeft || attachesRight || joinsWords
+        ? text
+        : ` ${text}`;
+    if (text === '"') insideQuote = !insideQuote;
+    previousOpenedQuote = opensQuote;
+    previous = text;
+  }
+  return result;
 }
 
 function hash(value: string) {
@@ -171,14 +200,21 @@ export function buildTranslationTiles(
 
   for (const token of [...candidateValues, ...fallbackTokens[mode]]) {
     const key = token.toLowerCase();
-    if (!key || seen.has(key)) continue;
+    // Punctuation belongs to the answer; keep the existing 4–6 word distractors.
+    if (!key || isPunctuationTile(token) || seen.has(key)) continue;
     seen.add(key);
     uniqueDistractors.push(token);
   }
 
   const distractorCount = Math.min(
     uniqueDistractors.length,
-    Math.max(4, Math.min(6, Math.ceil(answerTokens.length * 0.6))),
+    Math.max(
+      4,
+      Math.min(
+        6,
+        Math.ceil(answerTokens.filter(containsWordCharacter).length * 0.6),
+      ),
+    ),
   );
   const distractors = deterministicShuffle(
     uniqueDistractors,

@@ -18,6 +18,7 @@ import AppLink from '../app/app-link.ts';
 import {
   assembleTranslationTiles,
   buildTranslationTiles,
+  isPunctuationTile,
   tokenizeTranslation,
   type TranslationMode,
 } from '../lib/translation-tiles.ts';
@@ -631,7 +632,23 @@ for (const lesson of Object.values(lessons)) {
           answer: true,
         }));
         const assembled = assembleTranslationTiles(answerTiles, mode);
-        assert.equal(gradeTranslation(q, mode, assembled), 'matched', q.id);
+        assert.equal(
+          gradeTranslation(q, mode, assembled, { requirePunctuation: true }),
+          'matched',
+          q.id,
+        );
+        assert.equal(
+          assembled.replace(/\s/gu, ''),
+          expected.replace(/\s/gu, ''),
+          `${q.id}: no text or punctuation lost`,
+        );
+        assert.equal(
+          gradeTranslation(q, mode, assembled.replace(/\p{P}/gu, ''), {
+            requirePunctuation: true,
+          }),
+          'review',
+          `${q.id}: punctuation is mandatory`,
+        );
 
         const tiles = buildTranslationTiles(q, mode, pools.all);
         const distractors = tiles.filter((tile) => !tile.answer);
@@ -640,6 +657,18 @@ for (const lesson of Object.values(lessons)) {
           answerTokens.length,
         );
         assert.ok(distractors.length >= 4 && distractors.length <= 6, q.id);
+        assert.ok(
+          distractors.every((tile) => !isPunctuationTile(tile.text)),
+          `${q.id}: keep word distractors`,
+        );
+        assert.deepEqual(
+          tiles
+            .filter((tile) => tile.answer)
+            .map((tile) => tile.text)
+            .sort(),
+          [...answerTokens].sort(),
+          `${q.id}: bank includes every punctuation occurrence`,
+        );
         assert.equal(new Set(tiles.map((tile) => tile.id)).size, tiles.length);
         const answerValues = new Set(
           answerTokens.map((token) => token.toLowerCase()),
@@ -698,6 +727,132 @@ for (const lesson of Object.values(lessons)) {
     }
   });
 }
+void test('Sentence assembly exposes punctuation as separate reusable occurrences', () => {
+  const cases: [TranslationMode, string, string[]][] = [
+    ['vi-ja', 'はい、私です。どうぞ。', ['、', '。', '。']],
+    ['vi-ja', '「危ない！」と叫びました。', ['「', '！', '」', '。']],
+    ['ja-vi', 'Vâng, tôi đây. Bạn khỏe không?', [',', '.', '?']],
+    ['ja-vi', 'Đây là sô-cô-la Nhật Bản.', ['-', '-', '.']],
+    ['ja-vi', 'Cảm ơn anh/chị! (Sau khi hỏi nhờ.)', ['/', '!', '(', '.', ')']],
+    ['ja-vi', 'Tôi nói: “Chào bạn!”', [':', '“', '!', '”']],
+    ['ja-vi', 'Tôi nói: "Chào bạn!"', [':', '"', '!', '"']],
+    ['ja-vi', 'Có pin không? — Pin à? Có ở trên kệ.', ['?', '—', '?', '.']],
+  ];
+  for (const [mode, text, punctuation] of cases) {
+    const tokens = tokenizeTranslation(text, mode);
+    assert.deepEqual(tokens.filter(isPunctuationTile), punctuation, text);
+    const tiles = tokens.map((text, i) => ({
+      id: String(i),
+      text,
+      answer: true,
+    }));
+    assert.equal(assembleTranslationTiles(tiles, mode), text);
+  }
+});
+
+void test('Assembled answers reject missing, repeated, incorrect and misplaced punctuation', () => {
+  const q = {
+    id: 'punctuation-test',
+    topic: 'Dấu câu',
+    explanation: 'Ghép đủ dấu câu.',
+    jp: 'はい、私です。',
+    kana: 'はい、わたしです。',
+    vi: 'Vâng, là tôi.',
+  };
+  for (const mode of ['vi-ja', 'ja-vi'] as const) {
+    const expected = mode === 'vi-ja' ? q.jp : q.vi;
+    const tiles = tokenizeTranslation(expected, mode).map((text, i) => ({
+      id: String(i),
+      text,
+      answer: true,
+    }));
+    const grade = (input: typeof tiles) =>
+      gradeTranslation(q, mode, assembleTranslationTiles(input, mode), {
+        requirePunctuation: true,
+      });
+    assert.equal(grade(tiles), 'matched');
+    for (const [index, tile] of tiles.entries()) {
+      if (!isPunctuationTile(tile.text)) continue;
+      const without = tiles.filter((_, i) => i !== index);
+      assert.equal(grade(without), 'review', `missing ${tile.text}`);
+      assert.equal(
+        grade([tile, ...without]),
+        'review',
+        `misplaced ${tile.text}`,
+      );
+      assert.equal(grade([...tiles, tile]), 'review', `extra ${tile.text}`);
+      assert.equal(
+        grade(tiles.map((t, i) => (i === index ? { ...t, text: '!' } : t))),
+        'review',
+        `wrong ${tile.text}`,
+      );
+    }
+    assert.equal(grade([]), 'empty');
+    assert.equal(
+      grade(tiles.filter((tile) => isPunctuationTile(tile.text))),
+      'review',
+    );
+  }
+  assert.equal(
+    gradeTranslation(q, 'vi-ja', q.kana, { requirePunctuation: true }),
+    'matched',
+  );
+  assert.equal(
+    gradeTranslation(q, 'ja-vi', q.vi.toUpperCase().normalize('NFD'), {
+      requirePunctuation: true,
+    }),
+    'matched',
+  );
+  assert.equal(
+    gradeTranslation(q, 'vi-ja', 'はい私です'),
+    'matched',
+    'legacy typed normalization stays available',
+  );
+});
+
+void test('N5 review also includes and requires punctuation in both translation directions', () => {
+  const pools = buildPracticePools(reviewLesson, reviewTranslationCount);
+  for (const [mode, questions] of [
+    ['vi-ja', pools.viJa],
+    ['ja-vi', pools.jaVi],
+  ] as const) {
+    for (const q of questions) {
+      const expected = mode === 'vi-ja' ? q.jp : q.vi;
+      const bank = buildTranslationTiles(q, mode, pools.all);
+      const answer = bank
+        .filter((tile) => tile.answer)
+        .sort(
+          (a, b) =>
+            Number(a.id.split('-').at(-1)) - Number(b.id.split('-').at(-1)),
+        );
+      const assembled = assembleTranslationTiles(answer, mode);
+      assert.equal(
+        assembled.replace(/\s/gu, ''),
+        expected.replace(/\s/gu, ''),
+        q.id,
+      );
+      assert.equal(
+        gradeTranslation(q, mode, assembled, { requirePunctuation: true }),
+        'matched',
+        q.id,
+      );
+      const withoutPunctuation = answer.filter(
+        (tile) => !isPunctuationTile(tile.text),
+      );
+      assert.equal(
+        gradeTranslation(
+          q,
+          mode,
+          assembleTranslationTiles(withoutPunctuation, mode),
+          { requirePunctuation: true },
+        ),
+        'review',
+        q.id,
+      );
+    }
+  }
+});
+
 void test('Japanese: punctuation, widths, mixed kana and numeric counters', () => {
   assert.equal(
     gradeTranslation(

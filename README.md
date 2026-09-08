@@ -30,7 +30,7 @@ Mở địa chỉ mà máy chủ in ra (mặc định http://localhost:3000).
 - Bài 46–50: ところ・ばかり・はず, そう truyền tin・よう suy đoán, sai khiến, tôn kính ngữ và khiêm nhường ngữ.
 - Sơ cấp I (bài 1–25) giữ nguyên 1.062 flashcard, 147 điểm ngữ pháp và 1.900 câu luyện. Sơ cấp II (bài 26–50) thêm 1.040 flashcard, 125 điểm ngữ pháp và 1.900 câu luyện: 40 trắc nghiệm + 12 câu mỗi dạng Việt→Nhật, Nhật→Việt và nghe ở mỗi bài. Tổng cộng 2.102 flashcard, 272 điểm ngữ pháp, 3.800 câu luyện theo bài.
 - Trang tổng ôn N5 có một ngân hàng chung gồm 1.000 câu trắc nghiệm và 100 câu riêng cho mỗi dạng Việt → Nhật, Nhật → Việt, nghe hiểu. Dữ liệu được xếp xen kẽ theo bài để cả 25 bài xuất hiện sớm; kèm hai chuyên đề 206 trường hợp số đếm và 288 tổ hợp chia động từ.
-- Mỗi bài: 40 trắc nghiệm, 12 ghép câu Việt → Nhật, 12 ghép câu Nhật → Việt và 12 câu nghe hiểu. Mỗi câu ghép có đủ từ của đáp án và thêm 4–6 từ gây nhiễu lấy từ nội dung cùng bài.
+- Mỗi bài: 40 trắc nghiệm, 12 ghép câu Việt → Nhật, 12 ghép câu Nhật → Việt và 12 câu nghe hiểu. Mỗi câu ghép có đủ từ và dấu câu của đáp án, thêm 4–6 từ gây nhiễu lấy từ nội dung cùng bài. Dấu câu là mảnh riêng, phải chọn và đặt đúng vị trí; áp dụng cả phần tổng ôn.
 - Ba dạng ghép câu và nghe hiểu được chia ngân hàng câu riêng. App dùng tối đa câu khác nhau trước, tránh trùng nguyên văn với trắc nghiệm và chỉ tái sử dụng khi bài đó không còn đủ ví dụ phù hợp.
 - Phần nghe dùng giọng tiếng Nhật có sẵn trên thiết bị, tự phát khi mỗi câu xuất hiện, phát chậm vừa để học và cho nghe lại không giới hạn trước khi trả lời. Câu Nhật, cách đọc và giải thích chỉ hiện sau khi nộp đáp án. Khả năng phát tự động còn phụ thuộc chính sách trình duyệt và giọng Nhật được cài trên thiết bị.
 - Flashcard có cách đọc, nghĩa, ví dụ, đảo chiều, trộn thẻ và đánh dấu nhớ/cần ôn. Từ đã nhớ mặc định được ẩn khỏi lượt học; công tắc “Hiện từ đã nhớ” có thể đưa chúng trở lại để ôn cả bộ.
@@ -63,7 +63,7 @@ Các ví dụ, bản dịch tiếng Việt, giải thích và câu hỏi đều 
 
 ID thẻ và khóa lưu của bài 10–11 được giữ nguyên. Các bài mới lưu riêng theo bài, không di chuyển hay xóa tiến độ đã có.
 
-Phần dịch chấm thứ tự các thẻ từ theo câu mẫu đã biên soạn, có chuẩn hóa dấu câu và khoảng trắng. Đây **không phải** chấm ngữ nghĩa bằng AI.
+Phần dịch chấm thứ tự các thẻ từ và dấu câu theo câu mẫu đã biên soạn, có chuẩn hóa khoảng trắng, chữ hoa/thường tiếng Việt và cách viết tương đương tiếng Nhật. Thiếu, thừa hoặc đặt sai dấu câu không được tính đúng. Đây **không phải** chấm ngữ nghĩa bằng AI.
 
 Tiến độ từ vựng lưu bằng localStorage riêng từng bài; không cần đăng nhập, không gửi câu trả lời lên dịch vụ ngoài, không đồng bộ thiết bị. Khi trình duyệt không cho lưu, app cảnh báo và giữ tiến độ trong phiên hiện tại. Kết quả luyện tập chỉ nằm trong lượt đang mở và mất khi tải lại/rời trang.
 

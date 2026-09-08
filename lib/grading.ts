@@ -1,7 +1,12 @@
 import type { Translation } from './lessons.ts';
 import { segmentReadings } from './furigana.ts';
-export function normalizeJapanese(value: string): string {
-  let out = value.normalize('NFKC').replace(/[\s\p{P}]/gu, '');
+export function normalizeJapanese(
+  value: string,
+  preservePunctuation = false,
+): string {
+  let out = value
+    .normalize('NFKC')
+    .replace(preservePunctuation ? /\s/gu : /[\s\p{P}]/gu, '');
   const digits: Record<string, string> = {
     '1': '一',
     '2': '二',
@@ -27,10 +32,18 @@ export function normalizeJapanese(value: string): string {
     .join('');
   return out.replace(/くらい/g, 'ぐらい');
 }
-export function normalizeVietnamese(value: string): string {
-  return value
-    .normalize('NFC')
-    .toLocaleLowerCase('vi')
+export function normalizeVietnamese(
+  value: string,
+  preservePunctuation = false,
+): string {
+  const normalized = value.normalize('NFC').toLocaleLowerCase('vi');
+  if (preservePunctuation) {
+    return normalized
+      .replace(/\s*([\p{P}\p{S}])\s*/gu, '$1')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+  return normalized
     .replace(/[\p{P}\p{S}]/gu, ' ')
     .replace(/\s+/g, ' ')
     .trim();
@@ -39,6 +52,7 @@ export function gradeTranslation(
   q: Translation,
   direction: 'vi-ja' | 'ja-vi',
   input: string,
+  options: { requirePunctuation?: boolean } = {},
 ): 'empty' | 'matched' | 'review' {
   if (!input.trim()) return 'empty';
   const normalize =
@@ -47,7 +61,11 @@ export function gradeTranslation(
     direction === 'vi-ja'
       ? [q.jp, q.kana, ...(q.jpAlternatives ?? [])]
       : [q.vi, ...(q.viAlternatives ?? [])];
-  return answers.some((a) => normalize(a) === normalize(input))
+  return answers.some(
+    (a) =>
+      normalize(a, options.requirePunctuation) ===
+      normalize(input, options.requirePunctuation),
+  )
     ? 'matched'
     : 'review';
 }

@@ -20,6 +20,7 @@ import { buildPracticePools } from '@/lib/practice-pools';
 import {
   assembleTranslationTiles,
   buildTranslationTiles,
+  isPunctuationTile,
 } from '@/lib/translation-tiles';
 import JapaneseText from './japanese-text';
 import { segmentReadings } from '@/lib/furigana';
@@ -164,8 +165,9 @@ export default function Practice({
             : current.listening!.correct)
           ? 'correct'
           : 'incorrect'
-        : gradeTranslation(current.translation!, current.mode, input) ===
-            'matched'
+        : gradeTranslation(current.translation!, current.mode, input, {
+              requirePunctuation: true,
+            }) === 'matched'
           ? 'correct'
           : 'incorrect';
     setAnswers((a) => ({
@@ -625,7 +627,7 @@ export default function Practice({
                         type="button"
                         className="tile-hit-area"
                         onClick={() => removeTile(tile.id)}
-                        aria-label={`Bỏ từ ${tile.text}`}
+                        aria-label={`Bỏ ${isPunctuationTile(tile.text) ? 'dấu' : 'từ'} ${tile.text}`}
                       />
                       <span lang={q.mode === 'vi-ja' ? 'ja' : 'vi'}>
                         <JapaneseText
@@ -643,13 +645,13 @@ export default function Practice({
                   ))
                 ) : (
                   <span className="tile-placeholder">
-                    Chọn từng từ ở bên dưới để tạo câu trả lời.
+                    Chọn từ và dấu câu bên dưới theo đúng thứ tự.
                   </span>
                 )}
               </div>
             </fieldset>
             <fieldset className="available-tiles" disabled={submitted}>
-              <legend>Từ để ghép</legend>
+              <legend>Từ và dấu câu để ghép</legend>
               <div className="tile-bank">
                 {translationTiles
                   .filter((tile) => !selectedTileIds.includes(tile.id))
@@ -659,7 +661,7 @@ export default function Practice({
                         type="button"
                         className="tile-hit-area"
                         onClick={() => selectTile(tile.id)}
-                        aria-label={`Chọn từ ${tile.text}`}
+                        aria-label={`Chọn ${isPunctuationTile(tile.text) ? 'dấu' : 'từ'} ${tile.text}`}
                       />
                       <span lang={q.mode === 'vi-ja' ? 'ja' : 'vi'}>
                         <JapaneseText
@@ -679,8 +681,8 @@ export default function Practice({
             </fieldset>
             <div className="tile-builder-footer">
               <span className="input-hint">
-                Có {translationTiles.length - selectedTiles.length} từ chưa
-                dùng; một số từ không thuộc đáp án.
+                Còn {translationTiles.length - selectedTiles.length} mảnh chưa
+                dùng. Ghép cả dấu câu đúng vị trí; có từ gây nhiễu.
               </span>
               <button
                 type="button"
@@ -720,7 +722,7 @@ export default function Practice({
                     ? 'Ghi nhớ lại câu này nhé'
                     : isListening
                       ? 'Nghĩa bạn chọn chưa đúng'
-                      : 'Thứ tự hoặc từ được chọn chưa đúng'}
+                      : 'Kiểm tra lại từ, thứ tự và dấu câu nhé'}
               </strong>
             </div>
             <p className="answer-label">
