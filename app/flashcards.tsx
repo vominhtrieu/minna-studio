@@ -181,6 +181,18 @@ export default function Flashcards({ lesson }: { lesson: Lesson }) {
             <button
               className="flashcard-flip"
               type="button"
+              onPointerDown={(event) => {
+                // A fresh click on empty space dismisses the previous selection.
+                // The click guard below still protects a new drag selection.
+                if (
+                  event.button === 0 &&
+                  hasSelectedTextWithin(event.currentTarget.parentElement)
+                ) {
+                  event.currentTarget.ownerDocument
+                    .getSelection()
+                    ?.removeAllRanges();
+                }
+              }}
               onClick={(event) => {
                 if (!hasSelectedTextWithin(event.currentTarget.parentElement)) {
                   setFlipped((value) => !value);

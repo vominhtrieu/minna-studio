@@ -147,10 +147,16 @@ a {
   border: 0;
   border-radius: inherit;
   background: transparent;
+  cursor: pointer;
 }
 .flashcard > .flashcard-top,
 .flashcard > .flashcard-content {
   position: relative;
+  pointer-events: none;
+}
+/* Keep text selectable while letting clicks in the gaps reach the flip button. */
+.flashcard > .flashcard-top > span,
+.flashcard > .flashcard-content > span {
   pointer-events: auto;
   -webkit-user-select: text;
   user-select: text;
@@ -169,6 +175,7 @@ a {
   background: transparent;
   padding: 6px 12px;
   pointer-events: auto;
+  cursor: pointer;
 }
 .topbar {
   height: 88px;
