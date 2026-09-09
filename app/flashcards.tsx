@@ -15,6 +15,7 @@ import { Switch } from '@/components/ui/switch';
 import type { Lesson } from '@/lib/lessons';
 import { shuffled } from '@/lib/grading';
 import { useWordProgress, type Rating } from '@/lib/word-progress';
+import { hasSelectedTextWithin } from '@/lib/text-selection';
 export default function Flashcards({ lesson }: { lesson: Lesson }) {
   const [deck, setDeck] = useState(lesson.words);
   const [index, setIndex] = useState(0);
@@ -179,7 +180,12 @@ export default function Flashcards({ lesson }: { lesson: Lesson }) {
           <div className={'flashcard ' + (flipped ? 'flipped' : '')}>
             <button
               className="flashcard-flip"
-              onClick={() => setFlipped(!flipped)}
+              type="button"
+              onClick={(event) => {
+                if (!hasSelectedTextWithin(event.currentTarget.parentElement)) {
+                  setFlipped((value) => !value);
+                }
+              }}
               tabIndex={-1}
               aria-hidden="true"
             />
@@ -199,6 +205,7 @@ export default function Flashcards({ lesson }: { lesson: Lesson }) {
                     <JapaneseText
                       text={reverse ? word.jp : word.vi}
                       readingHint={reverse ? word.kana : undefined}
+                      selectable
                     />
                   </span>
                   {showKana && (
@@ -207,7 +214,7 @@ export default function Flashcards({ lesson }: { lesson: Lesson }) {
                     </span>
                   )}
                   <span lang="ja" className="example">
-                    <JapaneseText text={word.example} />
+                    <JapaneseText text={word.example} selectable />
                   </span>
                   <span className="example-translation">
                     {word.translation}
@@ -223,6 +230,7 @@ export default function Flashcards({ lesson }: { lesson: Lesson }) {
                       text={reverse ? word.vi : word.jp}
                       readingHint={reverse ? undefined : word.kana}
                       readings={showKana}
+                      selectable
                     />
                   </span>
                   <span className="recall-hint">

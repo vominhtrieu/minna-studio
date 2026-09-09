@@ -151,7 +151,15 @@ a {
 .flashcard > .flashcard-top,
 .flashcard > .flashcard-content {
   position: relative;
-  pointer-events: none;
+  pointer-events: auto;
+  -webkit-user-select: text;
+  user-select: text;
+  cursor: text;
+}
+.flashcard .furigana-word {
+  -webkit-user-select: text;
+  user-select: text;
+  cursor: text;
 }
 .flashcard > .flip-hint {
   position: relative;

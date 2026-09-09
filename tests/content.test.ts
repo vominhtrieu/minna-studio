@@ -15,6 +15,7 @@ import { hanVietFor } from '../lib/han-viet.ts';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { createElement } from 'react';
 import AppLink from '../app/app-link.ts';
+import { hasSelectedTextWithin } from '../lib/text-selection.ts';
 import {
   assembleTranslationTiles,
   buildTranslationTiles,
@@ -45,6 +46,38 @@ void test('Route links render native anchors and do not intercept navigation', (
     createElement(AppLink, { href }, 'Từ vựng'),
   );
   assert.equal(html, '<a href="/lessons/11/vocabulary">Từ vựng</a>');
+});
+void test('Flashcards protect selected text without blocking unrelated clicks', () => {
+  const selection = {
+    isCollapsed: false,
+    rangeCount: 1,
+    toString: () => '洗います',
+    getRangeAt: (_index: number) => ({
+      intersectsNode: (_node: Element) => true,
+    }),
+  };
+  const surface = {
+    ownerDocument: { getSelection: () => selection },
+  } as unknown as Element;
+  assert.equal(hasSelectedTextWithin(surface), true);
+  selection.isCollapsed = true;
+  assert.equal(hasSelectedTextWithin(surface), false);
+  selection.isCollapsed = false;
+  selection.toString = () => ' \n ';
+  assert.equal(hasSelectedTextWithin(surface), false);
+  selection.toString = () => 'văn bản khác';
+  selection.getRangeAt = () => ({ intersectsNode: () => false });
+  assert.equal(hasSelectedTextWithin(surface), false);
+  selection.rangeCount = 2;
+  selection.getRangeAt = (index) => ({ intersectsNode: () => index === 1 });
+  assert.equal(hasSelectedTextWithin(surface), true);
+  assert.equal(hasSelectedTextWithin(null), false);
+  assert.equal(
+    hasSelectedTextWithin({
+      ownerDocument: { getSelection: () => null },
+    } as unknown as Element),
+    false,
+  );
 });
 
 void test('Mixed formula preserves Vietnamese accents and isolates Japanese text', () => {
